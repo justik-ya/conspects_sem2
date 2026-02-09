@@ -1,0 +1,109 @@
+% !TeX encoding = UTF-8
+\documentclass[12pt,letterpaper]{report}
+
+% -------------------------------------------------
+% Языки, кодировки (pdfLaTeX, русский)
+% -------------------------------------------------
+\usepackage[T1,T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+
+% -------------------------------------------------
+% Страница и вёрстка
+% -------------------------------------------------
+\usepackage{parskip}
+\setlength{\parskip}{6pt}
+\setlength{\parindent}{0pt}
+
+% Поля страницы
+\addtolength{\oddsidemargin}{-.875in}
+\addtolength{\evensidemargin}{-.875in}
+\addtolength{\textwidth}{1.75in}
+\addtolength{\topmargin}{-.875in}
+\addtolength{\textheight}{1.75in}
+
+% -------------------------------------------------
+% Математика
+% -------------------------------------------------
+\usepackage{amsmath,amssymb,amsthm,amsfonts}
+\usepackage{mathtools}
+
+% -------------------------------------------------
+% Гиперссылки
+% -------------------------------------------------
+\usepackage{xcolor}
+\definecolor{linkcolor}{HTML}{47528f}
+
+\usepackage{hyperref}
+\hypersetup{
+	colorlinks=true,
+	linkcolor=linkcolor,
+	urlcolor=linkcolor,
+	citecolor=linkcolor
+}
+
+% -------------------------------------------------
+% Теоремы / определения / доказательства 
+% -------------------------------------------------
+\theoremstyle{plain}
+\newtheorem{theorem}{Предложение}
+\newtheorem{lemma}[theorem]{Лемма}
+
+\theoremstyle{definition}
+\newtheorem*{conj}{Определение}
+
+\renewcommand\qedsymbol{$\blacksquare$}
+
+% Русифицированное окружение доказательства
+\makeatletter
+\renewenvironment{proof}[1][\proofname]{%
+	\par\pushQED{\qed}\normalfont%
+	\topsep6\p@\@plus6\p@\relax
+	\trivlist\item[\hskip\labelsep\bfseries#1\@addpunct{.}]%
+	\ignorespaces
+}{%
+	\popQED\endtrivlist\@endpefalse
+}
+\makeatother
+
+% -------------------------------------------------
+% Макросы для следствий/замечаний 
+% -------------------------------------------------
+\newcommand{\follow}{\textbf{\textit{Следствие:}}}
+\newcommand{\notice}{\underline{\textit{Замечание }}}
+
+% -------------------------------------------------
+% Часто используемые множества 
+% -------------------------------------------------
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+
+% -------------------------------------------------
+% Нумерация разделов (билеты = секции)
+% -------------------------------------------------
+\renewcommand{\thesection}{\arabic{section}}
+
+% -------------------------------------------------
+% Импорт билетов
+% -------------------------------------------------
+\usepackage{import}
+
+\newcommand{\ticket}[2]{%
+	\import{#1}{#2}\bigskip
+}
+
+
+% -------------------------------------------------
+% Начало документа
+% -------------------------------------------------
+\begin{document}
+	
+	
+	\chapter*{Второй семестр.}
+	
+	\ticket{sections/}{ticket01.tex}
+	
+	
+\end{document}
