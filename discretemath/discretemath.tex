@@ -1,107 +1,265 @@
+% !TeX program = xelatex
 % !TeX encoding = UTF-8
-\documentclass[12pt,letterpaper]{report}
+\documentclass[12pt,a4paper]{article}
 
 % -------------------------------------------------
-% Языки, кодировки (pdfLaTeX, русский)
+% Шрифты
 % -------------------------------------------------
-\usepackage[T1,T2A]{fontenc}
-\usepackage[utf8]{inputenc}
-\usepackage[english,russian]{babel}
+\usepackage{fontspec}
+\defaultfontfeatures{Ligatures=TeX}
+
+\usepackage{polyglossia}
+\setdefaultlanguage{russian}
+\setotherlanguage{english}
+
+% --- локальные шрифты из ./fonts ---
+\setmainfont{cmunrm.otf}[
+Path=../fonts/,
+BoldFont       = cmunbx.otf,
+ItalicFont     = cmunti.otf,
+BoldItalicFont = cmunbi.otf
+]
+
+\setsansfont{cmunss.otf}[
+Path=../fonts/,
+BoldFont       = cmunsx.otf,
+ItalicFont     = cmunsi.otf, 
+BoldItalicFont = cmunbso.otf 
+]
+
+\setmonofont{cmuntt.otf}[Path=../fonts/]
 
 % -------------------------------------------------
-% Страница и вёрстка
+% Геометрия страницы и базовая вёрстка
 % -------------------------------------------------
+\usepackage[left=18mm, top=18mm, right=18mm, bottom=18mm]{geometry}
 \usepackage{parskip}
 \setlength{\parskip}{6pt}
 \setlength{\parindent}{0pt}
 
-% Поля страницы
-\addtolength{\oddsidemargin}{-.875in}
-\addtolength{\evensidemargin}{-.875in}
-\addtolength{\textwidth}{1.75in}
-\addtolength{\topmargin}{-.875in}
-\addtolength{\textheight}{1.75in}
-
 % -------------------------------------------------
 % Математика
 % -------------------------------------------------
-\usepackage{amsmath,amssymb,amsthm,amsfonts}
-\usepackage{mathtools}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{mathrsfs}
+
+% Частые команды и символы  
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\QQ}{\mathbb{Q}}
+\newcommand{\RR}{\mathbb{R}}
+
+\newcommand{\eps}{\varepsilon}
+\newcommand{\vphi}{\varphi}
+\newcommand{\st}{\;:\;}
+\newcommand{\bigO}{\mathcal{O}}
+
+\DeclareMathOperator{\dist}{dist}
 
 % -------------------------------------------------
-% Гиперссылки
+% Цвета, ссылки, пастельная палитра
 % -------------------------------------------------
-\usepackage{xcolor}
-\definecolor{linkcolor}{HTML}{47528f}
+\usepackage[dvipsnames]{xcolor}
+
+\definecolor{linkcolor}{HTML}{47528F}
 
 \usepackage{hyperref}
 \hypersetup{
 	colorlinks=true,
 	linkcolor=linkcolor,
 	urlcolor=linkcolor,
-	citecolor=linkcolor
+	citecolor=linkcolor,
+	linktoc=section
 }
 
 % -------------------------------------------------
-% Теоремы / определения / доказательства 
+% Теоремы / определения / примеры
+% (с общим счётчиком по section)
 % -------------------------------------------------
 \theoremstyle{plain}
-\newtheorem{theorem}{Предложение}
+\newtheorem{theorem}{Теорема}[section]
 \newtheorem{lemma}[theorem]{Лемма}
+\newtheorem{proposition}[theorem]{Предложение}
+\newtheorem{statement}[theorem]{Утверждение}
 
 \theoremstyle{definition}
-\newtheorem*{conj}{Определение}
+\newtheorem{definition}[theorem]{Определение}
+\newtheorem{example}[theorem]{Пример}
+
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Замечание}
 
 \renewcommand\qedsymbol{$\blacksquare$}
 
-% Русифицированное окружение доказательства
-\makeatletter
-\renewenvironment{proof}[1][\proofname]{%
-	\par\pushQED{\qed}\normalfont%
-	\topsep6\p@\@plus6\p@\relax
-	\trivlist\item[\hskip\labelsep\bfseries#1\@addpunct{.}]%
-	\ignorespaces
-}{%
-	\popQED\endtrivlist\@endpefalse
+% -------------------------------------------------
+% Пастельные блоки 
+% -------------------------------------------------
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable,skins,theorems}
+
+\tcbset{
+	mybox/.style={
+		enhanced,
+		breakable,
+		boxrule=0.7pt,
+		arc=2.5mm,
+		left=6pt,right=6pt,top=6pt,bottom=6pt,
+		coltitle=white,
+		fonttitle=\bfseries,
+	}
 }
-\makeatother
+
+% -----------------------
+% пастельная палитра
+% -----------------------
+
+% Теорема:  бордовый
+\definecolor{thmBack}{HTML}{F7E6EA}
+\definecolor{thmFrame}{HTML}{8E3B4F}
+
+% Лемма:  розовый
+\definecolor{lemBack}{HTML}{FCE8F1}
+\definecolor{lemFrame}{HTML}{C26A8A}
+
+% Утверждение:  синий
+\definecolor{stmtBack}{HTML}{E8F1FF}
+\definecolor{stmtFrame}{HTML}{4E79A7}
+
+% Пример: зелёный
+\definecolor{exBack}{HTML}{E9F6EF}
+\definecolor{exFrame}{HTML}{4C8C72}
+
+% Определение: тёплый песочный
+\definecolor{defBack}{HTML}{FFF4DE}
+\definecolor{defFrame}{HTML}{C89B3C}
+
+% Предложение:  лавандово-серый
+\definecolor{propBack}{HTML}{F1EEFF}
+\definecolor{propFrame}{HTML}{7A6FA6}
+
+% -----------------------
+% Теоремные окружения
+% -----------------------
+\newtcbtheorem{Theorem}{Теорема}{
+	mybox,
+	colback=thmBack,
+	colframe=thmFrame
+}{thm}
+
+\newtcbtheorem{Lemma}{Лемма}{
+	mybox,
+	colback=lemBack, colframe=lemFrame
+}{lem}
+
+\newtcbtheorem{Proposition}{Предложение}{
+	mybox,
+	colback=propBack, colframe=propFrame,
+}{prop}
+
+\newtcbtheorem{Statement}{Утверждение}{
+	mybox,
+	colback=stmtBack, colframe=stmtFrame
+}{stmt}
+
+\newtcbtheorem{Definition}{Определение}{
+	mybox,
+	colback=defBack, colframe=defFrame
+}{def}
+
+\newtcbtheorem{Example}{Пример}{
+	mybox,
+	colback=exBack, colframe=exFrame
+}{ex}
 
 % -------------------------------------------------
-% Макросы для следствий/замечаний 
-% -------------------------------------------------
-\newcommand{\follow}{\textbf{\textit{Следствие:}}}
-\newcommand{\notice}{\underline{\textit{Замечание }}}
-
-% -------------------------------------------------
-% Часто используемые множества 
-% -------------------------------------------------
-\newcommand{\Z}{\mathbb{Z}}
-\newcommand{\Q}{\mathbb{Q}}
-\newcommand{\N}{\mathbb{N}}
-\newcommand{\R}{\mathbb{R}}
-
-% -------------------------------------------------
-% Нумерация разделов (билеты = секции)
-% -------------------------------------------------
-\renewcommand{\thesection}{\arabic{section}}
-
-% -------------------------------------------------
-% Импорт билетов
+% Импорт секций/билетов
 % -------------------------------------------------
 \usepackage{import}
+\newcommand{\ticket}[2]{\import{#1}{#2}\bigskip}
 
-\newcommand{\ticket}[2]{%
-	\import{#1}{#2}\bigskip
+% -------------------------------------------------
+% Обложка
+% -------------------------------------------------
+
+\usepackage{anyfontsize}  
+\usepackage{tikz}
+\usetikzlibrary{calc}
+
+% ---  палитра  ---
+\definecolor{AlgosColor}{HTML}{15162B}    %  темно-фиолетово-синий
+\definecolor{AlgebraColor}{HTML}{301010}  % Темный бордовый
+\definecolor{AnalysisColor}{HTML}{102619} % Темная хвоя
+\definecolor{DiscreteColor}{HTML}{231030} % Темный баклажан
+
+% --- Команда создания обложки ---
+\newcommand{\makecover}[5]{%
+	\pagenumbering{gobble}%
+	
+	\begin{titlepage}
+		\begingroup
+		\sffamily
+		\renewcommand{\arraystretch}{1.4}%
+		
+		\begin{tikzpicture}[remember picture, overlay]
+			% Фон
+			\fill[#1] (current page.south west) rectangle (current page.north east);
+			
+			% Узор
+			\begin{scope}[white, line width=0.4pt]
+				\foreach \i in {0,1,...,25} {
+					\draw[opacity=0.07] ($(current page.north west)+(0,-\i*1.2)$) --
+					($(current page.north east)+(-\i*2,-28)$);
+				}
+				\foreach \i in {0,1,...,20} {
+					\draw[opacity=0.05] ($(current page.south east)+(0,\i*1.8)$) --
+					($(current page.south west)+(\i*3.5,18)$);
+				}
+				\foreach \i in {0,5,...,30} {
+					\draw[opacity=0.15] ($(current page.north east)+(-\i,0)$) --
+					($(current page.south west)+(0,\i)$);
+				}
+			\end{scope}
+			
+			% Шапка
+			\node[anchor=north west, white, inner sep=0pt]
+			at ($(current page.north west)+(2cm,-1.5cm)$) {%
+				\fontsize{16}{18}\selectfont\sffamily\bfseries
+				СПбГУ \ $\cdot$ \ МКН \ $\cdot$ \ СП \ $\cdot$ \ 1 КУРС
+			};
+			
+			% Заголовок
+			\node[anchor=west, white, inner sep=0pt, text width=18cm]
+			at ($(current page.west)+(2cm,5cm)$) {%
+				{\fontsize{52}{58}\fontseries{bx}\selectfont #2\par}
+				\vspace{0.7cm}
+				{\fontsize{30}{36}\selectfont\bfseries #3\par}
+			};
+			
+			% Футер
+			\node[anchor=south west, white, inner sep=0pt]
+			at ($(current page.south west)+(2cm,2cm)$) {%
+				\fontsize{20}{24}\selectfont\sffamily\bfseries
+				\begin{tabular}{@{}l}
+					Лектор: #4 \\
+					Составители: #5 \\
+					\fontsize{18}{20}\selectfont Санкт-Петербург, 2026
+				\end{tabular}
+			};
+		\end{tikzpicture}
+		\endgroup
+	\end{titlepage}
+	
+	\clearpage
 }
-
 
 % -------------------------------------------------
 % Начало документа
 % -------------------------------------------------
 \begin{document}
 	
+	\makecover{DiscreteColor}{Конспект  \: лекций \: по Дискретной \: математике}{}{Ненашев Г. В.}{....}
 	
-	\chapter*{Второй семестр.}
+	\part*{Второй семестр}
 	
 	\ticket{sections/}{ticket01.tex}
 	
