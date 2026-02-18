@@ -1,4 +1,339 @@
-% !TEX root = ../algebra_02.tex
+% !TEX root = ../matan.tex
 
-\section{Что то будет}
+\section{Формула Стирлинга. Неравенство Юнга. Неравенство Гёльдера}
 
+\begin{Definition}{Формула Стирлинга}{}
+	\[
+	n!\sim \sqrt{2\pi n}\left(\frac{n}{e}\right)^n\left(1+O\!\left(\frac1n\right)\right),
+	\qquad n\to\infty.
+	\]
+\end{Definition}
+
+\begin{proof}
+	\[
+	\log n! = \log 1 + \dots + \log n
+	= \log 1\cdot 1 + \log 2\cdot 1 + \dots + \log n\cdot 1 . \text{ Пишем } \log \equiv \ln
+	\]
+	
+	\begin{center}
+		\begin{tikzpicture}[x=1.1cm,y=3.2cm,>=Stealth]
+			
+			\pgfmathsetmacro{\n}{6}
+			\pgfmathsetmacro{\nminus}{\n-1}
+			\pgfmathsetmacro{\nplus}{\n+1}
+			\pgfmathsetmacro{\yn}{ln(\n)/ln(10)}        
+			\pgfmathsetmacro{\yplus}{ln(\nplus)/ln(10)}
+			
+			\draw[step=0.5,gray!25,very thin] (-0.6,-1.05) grid (8.6,1.15);
+			
+			\draw[thick,-{Stealth[length=3mm]}] (-0.6,0) -- (8.6,0);
+			\draw[thick,-{Stealth[length=3mm]}] (0,-1.05) -- (0,1.15); 
+			
+			\foreach \x/\lab in {1/1,2/2,3/3,\nminus/{$n-1$},\n/{$n$},\nplus/{$n+1$}}{
+				\draw[thick] (\x,0.03) -- (\x,-0.03);
+				\node[below] at (\x,0) {\lab};
+			}
+			\node[below] at (4.1,0) {$\dots$};
+			
+			\draw[thick,domain=0.15:8.2,samples=240,smooth]
+			plot (\x,{ln(\x)/ln(10)});
+			
+			\fill (1,0) circle (1.6pt);
+			
+			\fill[pattern=north east lines,pattern color=violet,opacity=0.35]
+			(\nminus,0) rectangle (\n,\yn);
+			\draw[very thick,violet]
+			(\nminus,0) rectangle (\n,\yn);
+			
+			\node[violet] at ({(\nminus+\n)/2},{\yn/2}) {$\ln n\cdot1$};
+			
+			\fill[pattern=north east lines,pattern color=blue,opacity=0.25]
+			(\n,0) rectangle (\nplus,\yplus);
+			\draw[thick,dashed]
+			(\n,0) rectangle (\nplus,\yplus);
+			
+			\draw[very thick,violet]
+			(\nminus,\yn) -- (\n,\yn) -- (\n,\yplus) -- (\nplus,\yplus);
+			
+			\draw[very thick,violet,domain=\nminus:\nplus,samples=120,smooth]
+			plot (\x,{ln(\x)/ln(10)});
+			
+			\draw[-{Stealth[length=2mm]}] (8.1,0.98) -- (7.2,{ln(7.2)/ln(10)});
+			\node[right] at (8.1,0.98) {$\ln x$};
+			
+		\end{tikzpicture}
+	\end{center}
+	
+	\[
+	\int_{n}^{n+1}\ln x\,dx \;>\; \ln n\cdot 1 \;>\; \int_{n-1}^{n}\ln x\,dx
+	\]
+	
+	Отсюда, суммируя по $n=1,\dots,N$:
+	\[
+	\int_{0}^{N}\ln x\,dx \;<\; \ln(N!) \;<\; \int_{1}^{N+1}\ln x\,dx.
+	\]
+	
+	Так как
+	\[
+	(x\ln x - x)' = \ln x
+	\qquad\Rightarrow\qquad
+	\int \ln x\,dx = x\ln x - x + \mathrm{const}.
+	\]
+	Поэтому
+	\[
+	n\ln n - n \;<\; \ln(n!) \;<\; (n+1)\ln(n+1) - n.
+	\]
+	
+	\[
+	\exp\Rightarrow\quad n^n e^{-n} \;<\; n! \;<\; (n+1)^{n+1} e^{-n}.
+	\]
+	
+	\[
+	n^n e^{-n}\cdot \mathrm{Const}\cdot \sqrt{n}\;\leftarrow\;\text{то, что нужно.}
+	\]
+	
+	Определим
+	\[
+	d_n := \ln(n!) - \Bigl(\bigl(n+\tfrac12\bigr)\ln n - n\Bigr).
+	\]
+	\emph{(Если $d_n\to C$, то $n! = e^{d_n}\, n^{n+\frac12}e^{-n}
+		= e^{C}\sqrt{n}\left(\frac{n}{e}\right)^n(1+o(1))$.)}
+		
+	Вычислим:
+	\begin{align*}
+		\boxed{\,d_n-d_{n+1}\,}
+		&= \ln(n!) - \Bigl(n+\tfrac12\Bigr)\ln n + n
+		- \ln\bigl((n+1)!\bigr) + \Bigl(n+1+\tfrac12\Bigr)\ln(n+1) - (n+1) \\
+		&= -\cancel{\ln(n+1)} + \cancel{\ln(n+1)}
+		- \Bigl(n+\tfrac12\Bigr)\ln n
+		+ \Bigl(n+\tfrac12\Bigr)\ln(n+1) - 1 \\
+		&= \boxed{\,\Bigl(n+\tfrac12\Bigr)\ln\!\Bigl(\frac{n+1}{n}\Bigr)-1\,}
+		\;\;\textleftarrow\;\; \text{будем это оценивать.}
+	\end{align*}
+	
+	Положим	
+	\[
+	\frac{n+1}{n}=1+\frac1n
+	= \frac{1+\frac1{2n+1}}{1-\frac1{2n+1}}
+	= \frac{1+t}{1-t},
+	\quad t:=\frac{1}{2n+1}.
+	\]
+	\emph{(Эта форма удобна, потому что $\ln\frac{1+t}{1-t}$ имеет красивый ряд.)}
+	
+	\begin{align*}
+		\ln\!\Bigl(\frac{1+t}{1-t}\Bigr)
+		&= \ln(1+t)-\ln(1-t) \\
+		&= 2t+\frac{2t^3}{3}+\frac{2t^5}{5}+\cdots+r_k(t),
+	\end{align*}
+	\emph{где $r_k(t)$ — остаток (в форме Лагранжа/интегральной и т.п.), $k>10$.}
+	
+	\[
+	\frac12\,\ln\!\Bigl(\frac{1+t}{1-t}\Bigr)
+	= \frac12\Bigl(2t+\frac{2t^3}{3}+\frac{2t^5}{5}+\cdots+r_k(t)\Bigr),
+	\qquad k>10.
+	\]
+	
+	Подставим в $d_n-d_{n+1}$
+	\begin{align*}
+		d_n-d_{n+1}
+		&=\Bigl(n+\tfrac12\Bigr)\ln\!\Bigl(\frac{1+t}{1-t}\Bigr)-1 \\
+		&= t^{-1}\cdot\frac12\Bigl(2t+\frac{2t^3}{3}+\cdots+r_k(t)\Bigr)-1 \\
+		&= \underbrace{\frac13\,t^2+\frac15\,t^4+\cdots+\frac{2\,r_k(t)}{t}}_{> 0}.
+	\end{align*}
+	
+	Оценим сверху $d_n-d_{n+1}$
+	\[
+	\text{Кроме того,}\quad
+	0<d_n-d_{n+1}
+	=\frac13\Bigl(t^2+\frac35t^4+\frac57t^6+\cdots\Bigr)+\frac23\,\frac{r_k(t)}{t}
+	<\frac13\Bigl(t^2+t^4+\cdots+t^{2(k-1)}\Bigr)+\frac23\,t\, r_k(t).
+	\]
+	\emph{(Просто грубо заменили дроби $\frac{3}{5},\frac{5}{7},\dots<1$.)}
+	
+	\[
+	t^2+t^4+\dots+t^{2(k-1)}
+	=t^2\frac{1-t^{2(k-1)}}{1-t^2}
+	=t^2\left(\frac{1}{1-t^2}-t^{2(k-1)}\cdot\frac{1}{1-t^2}\right)
+	\xrightarrow[k\to\infty]{}\frac{t^2}{1-t^2}.
+	\]
+	
+	\[
+	t^{2(k-1)}\xrightarrow[k\to\infty]{}0,
+	\qquad
+	\frac{r_k(t)}{t}\xrightarrow[k\to\infty]{}0
+	\quad (\text{при фиксированном } t,\ |t|<1).
+	\]
+	
+	\[
+	\text{Следовательно}\qquad
+	0<d_n-d_{n+1}<\frac13\cdot\frac{t^2}{1-t^2}
+	=\frac13\left(\frac{1}{\frac1{t^2}-1}\right).
+	\]
+	
+	\[
+	t=\frac{1}{2n+1}\quad\Rightarrow\quad
+	0<d_n-d_{n+1}
+	<\frac{1}{3\bigl((2n+1)^2-1\bigr)}
+	=\frac{1}{3(4n^2+4n)}
+	=\frac{1}{12n(n+1)}
+	=\frac{1}{12}\left(\frac1n-\frac1{n+1}\right).
+	\]
+	
+	\[
+	0<d_n-d_{n+m}
+	=\sum_{j=n}^{n+m-1}(d_j-d_{j+1})
+	<\frac{1}{12}\left(\frac1n-\frac1{n+m}\right).
+	\]
+	\emph{(Отсюда $d_n$ монотонно убывает и ограничена снизу, значит имеет предел.)}
+	
+	\[
+	d_n\searrow,
+	\qquad
+	\left(d_n-\frac{1}{12n}\right)\nearrow
+	\quad\Longrightarrow\quad
+	d_n\xrightarrow[n\to\infty]{}C.
+	\]
+	
+	\[
+	\lim_{n\to\infty}d_n=\lim_{n\to\infty}\left(d_n-\frac{1}{12n}\right)=C.
+	\]
+	
+	Константа через формулу Валлиса.
+	
+	\[
+	CLAIM:\quad e^{C}=\sqrt{2\pi}.
+	\]
+	
+	\textbf{Формула Валлиса:}
+	\[
+	\left(\frac{(2n)!!}{(2n-1)!!}\right)^2\cdot\frac{1}{2n+1}
+	\xrightarrow[n\to\infty]{}\frac{\pi}{2}.
+	\]
+	
+	\[
+	\Rightarrow\quad
+	\frac{(2n)!!}{(2n-1)!!}\cdot \frac{1}{\sqrt{2n+1}}
+	\xrightarrow[n\to\infty]{}\sqrt{\frac{\pi}{2}},
+	\qquad
+	\frac{(2n)!!}{(2n-1)!!}\cdot \frac{1}{\sqrt{2n}}
+	\xrightarrow[n\to\infty]{}\sqrt{\frac{\pi}{2}}.
+	\]
+	
+	\[
+	(2n)!!=2^n n!,\qquad
+	(2n)!=(2n)!!(2n-1)!!
+	\quad\Rightarrow\quad
+	\frac{(2n)!!}{(2n-1)!!}=\frac{2^{2n}(n!)^2}{(2n)!}.
+	\]
+	
+	\[
+	\ln\left(\left(\frac{2^{2n}(n!)^2}{(2n)!}\right)^2\frac{1}{2n+1}\right)
+	\xrightarrow[n\to\infty]{}\ln\frac{\pi}{2}.
+	\]
+	
+	\[
+	\ln(n!)=\Bigl(n+\tfrac12\Bigr)\ln n-n+d_n,\qquad
+	\ln((2n)!)=\Bigl(2n+\tfrac12\Bigr)\ln(2n)-2n+d_{2n}.
+	\]
+	
+	\begin{align*}
+		\ln\left(\left(\frac{2^{2n}(n!)^2}{(2n)!}\right)^2\frac{1}{2n+1}\right)
+		&=4n\ln2+4\ln(n!)-2\ln((2n)!)-\ln(2n+1)\\
+		&=4d_n-2d_{2n}+\ln n-\ln2-\ln(2n+1)+o(1)\\
+		&\xrightarrow[n\to\infty]{} 2C-2\ln2.
+	\end{align*}
+	\emph{(Здесь вся “главная” часть сокращается, остаются только $d_n$ и константы.)}
+	
+	\[
+	2C-2\ln2=\ln\frac{\pi}{2}
+	\quad\Rightarrow\quad
+	2C=\ln(2\pi)
+	\quad\Rightarrow\quad
+	C=\frac12\ln(2\pi),
+	\qquad
+	e^{C}=\sqrt{2\pi}.
+	\]
+
+\end{proof}
+
+\subsection{Несколько интегральных неравенств}
+
+\begin{Statement}{Неравенство Юнга}{}
+	Пусть $a,b>0$, $p,q>0$, $\dfrac{1}{p}+\dfrac{1}{q}=1$, $p,q\ne 1$. Тогда
+	\[
+	a^{\frac{1}{p}}b^{\frac{1}{q}}\le \frac{a}{p}+\frac{b}{q},\qquad p>1,
+	\]
+	\[
+	a^{\frac{1}{p}}b^{\frac{1}{q}}\ge \frac{a}{p}+\frac{b}{q},\qquad p<1.
+	\]
+\end{Statement}	
+
+\begin{proof} 
+	
+	\textbf{Claim.} При $x>0$ верно
+	\[
+	x^{\alpha}-\alpha x+ \alpha-1\le 0,\qquad 0<\alpha<1,
+	\]
+	\[
+	x^{\alpha}-\alpha x+ \alpha-1\ge 0,\qquad \alpha<0\ \ \text{или}\ \ \alpha>1.
+	\]
+	
+	\textbf{Проверяем}
+	\[
+	(x^{\alpha}- \alpha x+ \alpha-1)'= \alpha\,x^{\alpha-1}- \alpha = \alpha \bigl(x^{\alpha-1}-1\bigr)=0
+	\iff x=1.
+	\]
+	\[
+	1^{\alpha}-\alpha \cdot 1+\alpha-1=0.
+	\]
+	Отсюда: максимум при $0<\alpha<1$, минимум при $\alpha<0$ или $\alpha>1$.
+	
+	\medskip
+	\textbf{Положим} $x:=\dfrac{a}{\alpha}$, \quad $\alpha:=\dfrac{1}{p}$, \quad
+	$\dfrac{1}{q}:=1-\dfrac{1}{p}=1-\alpha$.
+	
+	\textbf{Тогда}
+	\[
+	\left(\frac{a}{b}\right)^{\!\frac1p}-\frac{1}{p}\cdot\frac{a}{b}+\frac{1}{p}-1\le 0,
+	\qquad 0<\frac{1}{p}<1 \ \ (\Leftrightarrow\ p>1).
+	\]
+	Умножая на $b>0$, получаем
+	\[
+	a^{\frac1p}\,b^{\,1-\frac1p}\le \frac{a}{p}+b\Bigl(1-\frac{1}{p}\Bigr).
+	\]
+	Так как $\dfrac{1}{q}=1-\dfrac{1}{p}$, то
+	\[
+	a^{\frac1p}b^{\frac1q}\le \frac{a}{p}+\frac{b}{q}.
+	\]
+	
+	А при $\dfrac{1}{p}<0$ или $\dfrac{1}{p}>1$ (то есть $p<1$) получаем обратное неравенство:
+	\[
+	a^{\frac1p}b^{\frac1q}\ge \frac{a}{p}+\frac{b}{q}.
+	\]
+\end{proof}
+	
+\begin{Statement}[breakable=false]{Неравенство Гёльдера}{}
+	Пусть $f,g:(a,b)\to\mathbb{R}$,
+	и $f,g$ интегрируемы по Риману на $[c,d]\subset(a,b)$ для любого $[c,d]$.
+	
+	\medskip
+	\textbf{Тогда:}
+	\[
+	\int_a^b \bigl|f(x)\,g(x)\bigr|\,dx
+	\le
+	\left(\int_a^b |f(x)|^{p}\,dx\right)^{\!\frac1p}
+	\cdot
+	\left(\int_a^b |g(x)|^{q}\,dx\right)^{\!\frac1q},
+	\]
+	\[
+	\forall\, p,q>0,\ p,q<\infty:\qquad \frac1p+\frac1q=1.
+	\]
+	
+	\medskip
+	Если $p=q=2$, то имеем неравенство КБШ:
+	\[
+	\int_a^b |f g|
+	\le
+	\sqrt{\int_a^b |f|^{2}}\;\cdot\;\sqrt{\int_a^b |g|^{2}}.
+	\]
+\end{Statement}	
