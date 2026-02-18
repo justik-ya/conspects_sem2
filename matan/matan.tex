@@ -40,8 +40,10 @@ BoldItalicFont = cmunbso.otf
 % -------------------------------------------------
 % Математика
 % -------------------------------------------------
-\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{amsmath,amssymb,amsthm,mathtools,cancel}
 \usepackage{mathrsfs}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,patterns,calc}
 
 % Частые команды и символы  
 \newcommand{\NN}{\mathbb{N}}
@@ -91,6 +93,16 @@ BoldItalicFont = cmunbso.otf
 
 \renewcommand\qedsymbol{$\blacksquare$}
 
+\makeatletter
+\renewenvironment{proof}[1][\proofname]{%
+	\par\pushQED{\qed}%
+	\normalfont \topsep6\p@\@plus6\p@\relax
+	\trivlist
+	\item\relax\textbf{#1.}\hspace\labelsep\ignorespaces
+}{%
+	\popQED\endtrivlist\@endpefalse
+}
+\makeatother
 % -------------------------------------------------
 % Пастельные блоки 
 % -------------------------------------------------
@@ -257,7 +269,7 @@ BoldItalicFont = cmunbso.otf
 % -------------------------------------------------
 \begin{document}
 	
-	\makecover{AnalysisColor}{Конспект  \: лекций \: по Математическому анализу}{}{Ненашев П. А.}{....}
+	\makecover{AnalysisColor}{Конспект  \: лекций \: по Математическому анализу}{}{Мозоляко П. А.}{....}
 	
 	\part*{Второй семестр}
 	

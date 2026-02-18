@@ -91,6 +91,17 @@ BoldItalicFont = cmunbso.otf
 
 \renewcommand\qedsymbol{$\blacksquare$}
 
+\makeatletter
+\renewenvironment{proof}[1][\proofname]{%
+	\par\pushQED{\qed}%
+	\normalfont \topsep6\p@\@plus6\p@\relax
+	\trivlist
+	\item\relax\textbf{#1.}\hspace\labelsep\ignorespaces
+}{%
+	\popQED\endtrivlist\@endpefalse
+}
+\makeatother
+
 % -------------------------------------------------
 % Пастельные блоки 
 % -------------------------------------------------
