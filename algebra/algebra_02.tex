@@ -148,6 +148,10 @@ BoldItalicFont = cmunbso.otf
 \definecolor{propBack}{HTML}{F1EEFF}
 \definecolor{propFrame}{HTML}{7A6FA6}
 
+% Замечание: серый
+\definecolor{remBack}{HTML}{F0F0F0}
+\definecolor{remFrame}{HTML}{888888}
+
 % -----------------------
 % Теоремные окружения
 % -----------------------
@@ -181,6 +185,12 @@ BoldItalicFont = cmunbso.otf
 	mybox,
 	colback=exBack, colframe=exFrame
 }{ex}
+
+
+\newtcbtheorem{Remark}{Замечание}{
+    mybox,
+    colback=remBack, colframe=remFrame
+}{rem}
 
 % -------------------------------------------------
 % Импорт секций/билетов

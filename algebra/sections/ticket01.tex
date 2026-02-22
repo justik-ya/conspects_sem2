@@ -1,4 +1,208 @@
 % !TEX root = ../algebra_02.tex
 
 \section{Что то будет}
+% !TEX root = ../линейная_алгебра.tex
 
+\section{Ранг матрицы над полем. Элементарные преобразования. Теорема Кронекера--Капелли. Прямые суммы}
+
+\subsection{Ранг матрицы над произвольным полем}
+
+Пусть $k$ — поле, $A \in k^{m \times n}$.
+
+\begin{Definition}{Ранг матрицы}{}
+    \emph{Рангом} матрицы $A$ называется число линейно независимых столбцов:
+    \[
+        \mathrm{rk}(A) = \mathrm{rk}(A[{:},1],\, \ldots,\, A[{:},n]).
+    \]
+\end{Definition}
+
+\begin{Theorem}{Равенство строчного и столбцового рангов}{}
+    Для любой матрицы $A \in k^{m \times n}$:
+    \[
+        \mathrm{rk}(A[1,{:}],\, \ldots,\, A[m,{:}]) = \mathrm{rk}(A^T).
+    \]
+    В частности, $\mathrm{rk}(A) = \mathrm{rk}(A^T)$.
+\end{Theorem}
+
+\subsection{Инвариантность ранга при элементарных преобразованиях строк}
+
+\begin{Theorem}{Инвариантность ранга}{}
+    Ранг $\mathrm{rk}(A)$ и ранг $\mathrm{rk}(A^T)$ не меняются при элементарных преобразованиях строк матрицы $A$.
+\end{Theorem}
+
+\begin{proof}
+Достаточно проверить для одного элементарного преобразования $A \to A'$.
+
+\textbf{Шаг 1 ($\mathrm{rk}(A') \leq \mathrm{rk}(A)$).} При элементарном преобразовании строк существует обратимая матрица $U \in M_m(k)$ такая, что $A' = UA$. Поэтому каждый столбец $A'[{:},j]$ лежит в линейной оболочке столбцов $A$:
+\[
+    \mathrm{Lin}(A'[{:},1],\, \ldots,\, A'[{:},n]) \subseteq \mathrm{Lin}(A[{:},1],\, \ldots,\, A[{:},n]),
+\]
+откуда $\mathrm{rk}((A')^T) \leq \mathrm{rk}(A^T)$.
+
+\textbf{Шаг 2 ($\mathrm{rk}(A) \leq \mathrm{rk}(A')$).} Так как $U$ обратима, существует обратное преобразование $A \xrightarrow{\text{эл. пр.}} A'$, откуда симметрично $\mathrm{rk}(A^T) \leq \mathrm{rk}((A')^T)$.
+
+Объединяя оба шага: $\mathrm{rk}(A) = \mathrm{rk}(A')$.
+\end{proof}
+
+\subsubsection{Детали доказательства: ядра и линейные оболочки}
+
+Пусть $\mathrm{rk}(A) = r$, то есть существуют индексы $j_1, \ldots, j_r$ такие, что $A[{:},j_1], \ldots, A[{:},j_r]$ линейно независимы (ЛНЗ). Рассмотрим $A' = A[{:},\{j_1,\ldots,j_r\}] \in k^{m \times r}$ — подматрицу из этих $r$ столбцов.
+
+Для вектора $x$ с компонентой $d_{i_1}$ на месте $i_1$ и нулями в остальных местах:
+\[
+    A \begin{pmatrix} 0 \\ d_{i_1} \\ \vdots \\ 0 \end{pmatrix} = 0 \implies A' \cdot d_{i_1} \cdot e_{i_1} = 0,
+\]
+откуда $d_{i_1} = 0$. Следовательно, существование ненулевого $d_{i_1}, \ldots, d_{i_\ell}$ невозможно, что и означает ЛНЗ.
+
+Так как $A' = UA$, то $UA\begin{pmatrix}0\\d_{i_1}\\\vdots\\d_{i_2}\end{pmatrix} = 0$, то есть $A'[{:},i_1], \ldots, A'[{:},i_\ell]$ — ЛНЗ.
+
+При $\mathrm{rk}(A) = r$: для любого набора из $r+1$ столбцов матрица $A$ — ЛЗ $\Rightarrow$ матрица $A'$ тоже ЛЗ, откуда $\mathrm{rk}(A') \leq \mathrm{rk}(A)$.
+
+Аналогично $\mathrm{rk}(A) \leq \mathrm{rk}(A')$, итого $\mathrm{rk}(A) = \mathrm{rk}(A')$.
+
+\subsection{Неравенства для рангов суммы и произведения}
+
+\begin{Theorem}{Неравенства для рангов}{}
+    Для матриц $A \in k^{m \times n}$, $B \in k^{n \times p}$:
+    \begin{enumerate}
+        \item $\mathrm{rk}(A + B) \leq \mathrm{rk}(A) + \mathrm{rk}(B)$.
+        \item $\mathrm{rk}(AB) \leq \min(\mathrm{rk}(A),\, \mathrm{rk}(B))$.
+    \end{enumerate}
+\end{Theorem}
+
+\begin{proof}
+\textbf{Неравенство 2.} Элемент $(AB)[i,j] = \sum_\nu A[i,\nu] \cdot B[\nu,j]$, поэтому
+\[
+    (AB)[{:},j] = \sum_\nu B[\nu,j] \cdot A[{:},\nu] \in \mathrm{Lin}(A[{:},1], \ldots, A[{:},n]).
+\]
+Следовательно, $\mathrm{Lin}((AB)[{:},1], \ldots, (AB)[{:},p]) \subseteq \mathrm{Lin}(A[{:},1], \ldots, A[{:},n])$, откуда $\mathrm{rk}(AB) \leq \mathrm{rk}(A)$.
+
+Оценка $\mathrm{rk}(AB) \leq \mathrm{rk}(B)$ следует из:
+\[
+    \mathrm{rk}(AB) = \mathrm{rk}((AB)^T) = \mathrm{rk}(B^T A^T) \leq \mathrm{rk}(B^T) = \mathrm{rk}(B).
+\]
+\end{proof}
+
+\subsubsection{Следствие: умножение на обратимую матрицу не меняет ранг}
+
+\begin{Theorem}{Ранг при умножении на обратимую матрицу}{}
+    Пусть $A \in k^{m \times n}$.
+    \begin{enumerate}
+        \item Если $U \in GL_m(k)$, то $\mathrm{rk}(UA) = \mathrm{rk}(A)$.
+        \item Если $U \in GL_n(k)$, то $\mathrm{rk}(AU) = \mathrm{rk}(A)$.
+    \end{enumerate}
+\end{Theorem}
+
+\begin{proof}
+Для случая 1: $\mathrm{rk}(UA) \leq \mathrm{rk}(A)$ из неравенства выше. С другой стороны, $A = U^{-1}(UA)$, откуда $\mathrm{rk}(A) \leq \mathrm{rk}(UA)$.
+\end{proof}
+
+\begin{Remark}{}{}
+    Предложение: если $U \in M_n(k)$, то
+    \[
+        U \in GL_n(k) \iff \mathrm{rk}(U) = n.
+    \]
+    Доказательство: $(\Rightarrow)$: $U = U \cdot E_n \Rightarrow \mathrm{rk}(U) = \mathrm{rk}(E_n) = n$. $(\Leftarrow)$: $U \sim D = \begin{pmatrix} E_r & 0 \\ 0 & 0 \end{pmatrix}$, $r = \mathrm{rk}(U) = n \Rightarrow U \in GL_n(k)$.
+\end{Remark}
+
+\subsection{Тензорный ранг}
+
+Пусть $A \in k^{m \times n}$.
+
+\begin{Definition}{Тензорный ранг}{}
+    \emph{Тензорным рангом} матрицы $A$ называется
+    \[
+        \min \bigl\{ r \mid \exists\, A_1, \ldots, A_r,\; A = A_1 + \cdots + A_r,\; A_i \text{ — матрица ранга } 1 \bigr\}.
+    \]
+\end{Definition}
+
+\begin{Theorem}{Тензорный ранг равен рангу}{}
+    Тензорный ранг матрицы $A$ равен $\mathrm{rk}(A)$.
+\end{Theorem}
+
+\begin{proof}
+Матрица $A$ имеет ненулевой минор порядка $r$, но нет ненулевого минора порядка $r+1$.
+
+Доказательство использует то, что существует подматрица $B = A[\{i_1,\ldots,i_s\},\{j_1,\ldots,j_s\}]$ ранга $s$ — один из миноров порядка $r$. Столбцы $A[{:},j_1], \ldots, A[{:},j_s]$ — ЛНЗ. Столбцы $A[{:},j_{s+1}], \ldots$ — ЛЗ над ними.
+
+Если выкинуть какой-либо столбец из ЛНЗ системы строк, ЛНЗ остальных строк сохраняется. Следовательно, $\mathrm{rk}\,B < s$ — одна из строк выражается через остальные. Итого тензорный ранг $= \mathrm{rk}(A)$.
+\end{proof}
+
+\subsection{Теорема Кронекера--Капелли}
+
+\begin{Theorem}{Кронекера--Капелли}{}
+    Система линейных уравнений $(A \mid b)$ совместна тогда и только тогда, когда
+    \[
+        \mathrm{rk}(A \mid b) = \mathrm{rk}(A).
+    \]
+\end{Theorem}
+
+\begin{proof}
+Пусть $A \in k^{m \times n}$, $b \in k^m$.
+
+$(\Rightarrow)$: Система совместна, то есть существует $\begin{pmatrix} d_1 \\ \vdots \\ d_n \end{pmatrix}$ такое, что $A \begin{pmatrix} d_1 \\ \vdots \\ d_n \end{pmatrix} = b$. Это означает $d_1 A[{:},1] + \cdots + d_n A[{:},n] = b$, то есть $b \in \mathrm{Lin}(A[{:},1], \ldots, A[{:},n]) =: W$. Следовательно,
+\[
+    \mathrm{Lin}(A[{:},1], \ldots, A[{:},n], b) = W,
+\]
+откуда $\mathrm{rk}(A \mid b) = \dim W = \mathrm{rk}(A)$.
+
+$(\Leftarrow)$: $\mathrm{rk}(A \mid b) = \mathrm{rk}(A) \Rightarrow \mathrm{Lin}(A[{:},1], \ldots, A[{:},n], b) = W$ (м.к. $\supseteq$). Поэтому $b \in W$, то есть $b = A\begin{pmatrix} d_1 \\ \vdots \\ d_n \end{pmatrix}$ для некоторых $d_1, \ldots, d_n \in k$.
+\end{proof}
+
+\subsection{Прямые суммы подпространств}
+
+Пусть $V$ — векторное пространство над $k$, $W_1, \ldots, W_k \leq V$ — подпространства.
+
+\begin{Definition}{Прямая сумма}{}
+    Говорят, что $V$ \emph{раскладывается во внутреннюю прямую сумму} $W_1, \ldots, W_k$, и пишут $V = W_1 \oplus \cdots \oplus W_k$, если для каждого $v \in V$ существует единственное представление
+    \[
+        v = w_1 + \cdots + w_k, \quad w_i \in W_i.
+    \]
+\end{Definition}
+
+\begin{Remark}{}{}
+    Если существует базис $e_1, \ldots, e_k$ пространства $V$, то $e_1, \ldots, e_k$ — базис $V$, откуда $V = \mathrm{Lin}(e_1) \oplus \cdots \oplus \mathrm{Lin}(e_k)$.
+\end{Remark}
+
+\subsubsection{Критерий прямой суммы двух подпространств}
+
+\begin{Theorem}{Критерий для двух слагаемых}{}
+    Для подпространств $W_1, W_2 \leq V$:
+    \[
+        W_1 \oplus W_2 \iff \begin{cases} V = W_1 + W_2, \\ W_1 \cap W_2 = \{0\}. \end{cases}
+    \]
+\end{Theorem}
+
+\begin{proof}
+$(\Rightarrow)$: Первое условие очевидно. Для второго: пусть $w \in W_1 \cap W_2$, тогда $v = w + 0 = 0 + w$, что противоречит единственности (при $w \neq 0$), значит $w = 0$.
+
+$(\Leftarrow)$: Пусть $v = w_1 + w_2 = w_1' + w_2'$, тогда $w_1 - w_1' = w_2' - w_2$. Левая часть лежит в $W_1$, правая — в $W_2$, поэтому оба равны нулю, откуда $w_1 = w_1'$, $w_2 = w_2'$.
+\end{proof}
+
+\subsubsection{Критерий прямой суммы нескольких подпространств}
+
+\begin{Theorem}{Критерий для нескольких слагаемых}{}
+    $V = W_1 \oplus \cdots \oplus W_k$ тогда и только тогда, когда:
+    \begin{enumerate}
+        \item $W_1 + \cdots + W_k = V$;
+        \item для каждого $j$: $W_j \cap (W_1 + \cdots + \widehat{W_j} + \cdots + W_k) = \{0\}$.
+    \end{enumerate}
+\end{Theorem}
+
+\begin{Theorem}{Базис прямой суммы}{}
+    Пусть $W_1, \ldots, W_k$ — подпространства $V$, $e_{i,1}, \ldots, e_{i,d_i}$ — базис $W_i$ при $i = 1, \ldots, k$. Тогда $V = W_1 \oplus \cdots \oplus W_k$ тогда и только тогда, когда
+    \[
+        \{e_{i,j} \mid 1 \leq i \leq k,\; 1 \leq j \leq d_i\}
+    \]
+    является базисом $V$.
+\end{Theorem}
+
+\begin{proof}
+$(\Rightarrow)$: Для любого $v \in V$: $v = w_1 + \cdots + w_k = \sum_{i=1}^{k} \sum_{j=1}^{d_i} \alpha_{i,j}\, e_{i,j}$.
+
+Единственность: если $\sum_{i,j} \alpha_{i,j}\, e_{i,j} = \sum_{i,j} \beta_{i,j}\, e_{i,j}$, то
+\[
+    \sum_i \Bigl(\sum_j \alpha_{i,j}\, e_{i,j}\Bigr) = \sum_i \Bigl(\sum_j \beta_{i,j}\, e_{i,j}\Bigr).
+\]
+Обозначим $w_i = \sum_j \alpha_{i,j} e_{i,j} \in W_i$ и $w_i' = \sum_j \beta_{i,j} e_{i,j} \in W_i$. Из $\sum_i w_i = \sum_i w_i'$ и единственности разложения $v = \sum_i w_i$ получаем $w_i = w_i'$ для всех $i$, откуда $\alpha_{i,j} = \beta_{i,j}$ для всех $i, j$. Таким образом, $\{e_{i,j}\}$ — базис $V$.
+\end{proof}
