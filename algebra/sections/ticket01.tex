@@ -105,7 +105,7 @@
 \begin{proof}
 \textbf{$\mathrm{rk}_{\otimes}(A) \leq \mathrm{rk}(A)$.} Пусть $\mathrm{rk}(A) = r$. Приведём $A$ к виду $D = \begin{pmatrix} E_r & 0 \\ 0 & 0 \end{pmatrix}$ (умножением на обратимые). Матрица $D$ является суммой $r$ матриц ранга $1$ (по одной на каждую единицу диагонали), откуда $\mathrm{rk}_{\otimes}(A) = \mathrm{rk}_{\otimes}(D) \leq r$.
 
-\textbf{$\mathrm{rk}_{\otimes}(A) \geq \mathrm{rk}(A)$.} Каждое слагаемое $A_i$ ранга $1$ вносит не более $1$ в ранг суммы:
+\textbf{$\mathrm{rk}_{\otimes}(A) \geq \mathrm{rk}(A)$.} Пусть теперь $r = \mathrm{rk}_{\otimes}(A)$, то есть $A = A_1 + \cdots + A_r$, где $\mathrm{rk}(A_i) = 1$ и $r$ минимально. Каждый столбец суммы есть сумма соответствующих столбцов слагаемых, поэтому $\Lin(A) \subseteq \Lin(A_1) + \cdots + \Lin(A_r)$, и так как размерность суммы подпространств не превосходит суммы размерностей:
 \[
     \mathrm{rk}(A) = \mathrm{rk}(A_1 + \cdots + A_r) \leq \mathrm{rk}(A_1) + \cdots + \mathrm{rk}(A_r) = r.
 \]
