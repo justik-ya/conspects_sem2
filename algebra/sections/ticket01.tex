@@ -41,7 +41,7 @@
 \end{proof}
 
 \begin{Remark}{}{}
-    Если матрица $A$ элементарными преобразованиями строк приведена к ступенчатому виду с $r$ ненулевыми строками (окаймлённая единичная матрица $\begin{pmatrix} E_r & * \\ 0 & 0 \end{pmatrix}$), то количество единиц на диагонали равно $r = \mathrm{rk}(A)$.
+    Если матрица $A$ элементарными преобразованиями строк приведена к ступенчатому виду с $r$ ненулевыми строками (окаймлённая единичная матрица $\begin{pmatrix} E_r & 0 \\ 0 & 0 \end{pmatrix}$), то количество единиц на диагонали равно $r = \mathrm{rk}(A)$.
 \end{Remark}
 
 \subsection{Равенство столбцового и строкового рангов}
@@ -89,12 +89,15 @@
 \subsection{Тензорный ранг}
 
 \begin{Definition}{Тензорный ранг}{}
-    \emph{Тензорный ранг нуля} равен $0$. \emph{Тензорный ранг единицы} матрицы ранга $1$ равен $1$. В общем случае \emph{тензорным рангом} матрицы $A$ называется
-    \[
-        \mathrm{rk}_{\otimes}(A) = \min\bigl\{r \mid A = A_1 + \cdots + A_r,\; \mathrm{rk}(A_i) = 1\bigr\}.
-    \]
+    \emph{Тензорный ранг} матрицы $A \in k^{m \times n}$ определяется следующим образом:
+    \begin{itemize}
+        \item $\mathrm{rk}_{\otimes}(A) = 0$, если $A = 0$;
+        \item $\mathrm{rk}_{\otimes}(A) = 1$, если $A \neq 0$ и существуют векторы
+              $\alpha \in k^m$, $\beta \in k^n$ такие, что $A_{ij} = \alpha_i \beta_j$;
+        \item в общем случае $\mathrm{rk}_{\otimes}(A) = \min\bigl\{r \mid A = A_1 + \cdots + A_r,\;
+              \mathrm{rk}_{\otimes}(A_i) = 1\bigr\}$.
+    \end{itemize}
 \end{Definition}
-
 \begin{Theorem}{Тензорный ранг равен рангу}{}
     $\mathrm{rk}_{\otimes}(A) = \mathrm{rk}(A)$.
 \end{Theorem}
