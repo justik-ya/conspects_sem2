@@ -22,11 +22,12 @@
     $V_1 \times \ldots \times V_k$~--- линейное пространство.
 \end{Statement}
 
+
 \subsubsection{Связь с внутренней суммой}
 
 $W_1 \ldots W_k \subset V$
 
-Тогда $\exists:$
+Тогда $\exists$:
 \[
 \vphi : W_1 \times \ldots \times W_k \longrightarrow V
 \]
@@ -58,9 +59,21 @@ w_1 , \; \ldots , \; w_k \rightarrow w_1 + \ldots + w_k
     $V$ и $W$ над полем $K$ изоморфны $\Longleftrightarrow \exists \; \vphi : V \longrightarrow W , \vphi $ \; ~--- линейное биективное.
 \end{Definition}
 
-Следствие:
+\begin{remark}
+    Пока что линейное отображение понимаем как выполнение условий
+    \begin{itemize}
+        \item $\vphi(x_1 + x_2) = \phi(x_1) + \vphi(x_2)$
+        \item $\vphi(\lambda x) = \lambda \vphi(x)$
+    \end{itemize}
+    Конкретное определение линейного отображения определим ниже.
+\end{remark}
+
+\vspace{1\baselineskip}
+
+\textbf{Следствие:}
 
 $V$ изморфно своей внутренней сумме $\left(W_1 \oplus \ldots \oplus W_k \right)$
+
 
 \subsection{Линейные отображения}
 
@@ -103,6 +116,10 @@ $V$ изморфно своей внутренней сумме $\left(W_1 \oplu
     $\forall \; \text{Линейных отображений} \; \mathcal{A} \st V \longrightarrow W$ \; $\mathcal{A}(0 \in V) = 0 \in W$
 \end{remark}
 
+\begin{remark}
+    Отсюда существование биективного линейного отображения между $V, W$ равносильно их изоморфизму
+\end{remark}
+
 \vspace{1.5\baselineskip}
 
 \begin{Definition}{Множество линейных отображений}{}
@@ -127,11 +144,11 @@ $V$ изморфно своей внутренней сумме $\left(W_1 \oplu
         \begin{itemize}
             \item Фиксируем $\alpha \in K$.
             \[
-                f \longrightarrow f(\alpha) \in Hom(K[x], K)
+                \ f \longrightarrow f(\alpha)~--- \, \text{линейное из K[x] в K.}
             \]
             \item Фиксируем $g \in K[x]$. 
             \[
-                f \longrightarrow f \cdot g \in Hom(K[x], K[x])
+                f \longrightarrow f \cdot g~--- \, \text{линейное из K[x] в K.}
             \]
         \end{itemize}
     \end{enumerate}
@@ -140,9 +157,17 @@ $V$ изморфно своей внутренней сумме $\left(W_1 \oplu
 \begin{Proposition}{Разложение по базису}{}
     $H := v_1 , \; \ldots \; v_n \in V$
     
+    Введем 
+    \[
+    \eps_H \st K^n \longrightarrow V
+    \]
+    \[    
+    \begin{pmatrix} \alpha_1 \\ \vdots \\ \alpha_n \end{pmatrix} \longrightarrow 
+    \alpha_1v_1 + \ldots + \alpha_nv_n
+    \]
+
     \begin{enumerate} \setlength{\itemsep}{7pt}
-        \item $ \eps_H \st K^n \longrightarrow V \in Hom(K^n, V)$ 
-        $ \begin{pmatrix} \alpha_1 \\ \vdots \\ \alpha_n \end{pmatrix}  \longrightarrow \alpha_1v_1 + \ldots + \alpha_nv_n$
+        \item $\eps_H \in Hom(K^n, V)$
         \item $\eps_H$ - изоморфизм $\Leftrightarrow H$~--- базис V.
     \end{enumerate}
 \end{Proposition}
@@ -176,7 +201,7 @@ $V$ изморфно своей внутренней сумме $\left(W_1 \oplu
 \vspace{1\baselineskip}
 
 \begin{remark}
-На конкретном набор линейных пространств \textbf{изоморфизм}~--- отношение \textbf{эквивалентности}
+На конечном наборе линейных пространств \textbf{изоморфизм}~--- отношение \textbf{эквивалентности}
 \end{remark}
 
 \vspace{1\baselineskip}
@@ -198,8 +223,11 @@ $\forall \; V / K$
 
 \begin{Proposition}{}{}
     $V, W$~--- пространства над $K$
-    \[ e_1, \; \ldots, \; e_n - \text{базис} \; V; \;\; w_1, \; \ldots, \; w_n \in W \]
-     \[ \Longrightarrow \exists ! \; \mathcal{A} \st \mathop{V \longrightarrow W}_{\mathcal{A}(e_j) = w_j} \]
+    \[ e_1, \; \ldots, \; e_n - \text{базис} \; V; \;\; H = w_1, \; \ldots, \; w_n \in W \]
+     \[ 
+     \Longrightarrow \exists ! \; \mathcal{A} \st \mathop{V \longrightarrow W}_{\mathcal{A}(e_j) = w_j}, \;
+     \mathcal{A} \in Hom(V, W)
+     \]
 
 \end{Proposition}
 
@@ -212,12 +240,17 @@ $\forall \; V / K$
         \[
         v \rightarrow \eps_H([v]_E)
         \]
+        $E$~--- базис $V$, $H$~--- набор векторов из $W$ (получили коэффициенты $[v]_E$ в разложении по базису $V$
+         и собрали из этих коэффициентов вектор из $W$)
         \[
         \lambda_1e_1 + \; \ldots + \; \lambda_n e_n \longrightarrow \lambda_1 w_1 + \; \ldots + \; \lambda_n w_n
-        \mathcal{A}(e_j) = \eps_H \]
-        \[
-        \begin{pmatrix} 0 \\ | \\  1 \\ | \\ 0 \end{pmatrix} = w_j 
         \]
+        \[ 
+        \mathcal{A}(e_j) = \eps_H \left( \begin{pmatrix} 0 \\ | \\  1 \\ | \\ 0 \end{pmatrix} \right) = w_j
+        \]
+        Получаем, что $\mathcal{A}(e_j) = \eps_H([e_j]_E)$, при этом 
+        
+        $\eps_H \in Hom(V, W) \Longrightarrow \mathcal{A} \in Hom(V, W)$
 
         \item $\exists \textbf{!}$:
         
@@ -227,12 +260,14 @@ $\forall \; V / K$
         \[
         \mathcal{A}' e_j = w_j
         \]
+        \[
+        v \in V \Rightarrow v = \lambda_1 e_1 + \; \ldots \; + \lambda_n e_n
+        \]
+        \[
+        \mathcal{A}' v = \lambda_1 \mathcal{A}' e_1 + \; \ldots \; + \lambda_n \mathcal{A}' e_n =
+        \]
+        \[ \lambda_1 w_1 + \; \ldots \; + \lambda_n w_n = \mathcal{A} v \]
 
-        $v \in V \Rightarrow v = \lambda_1 e_1 + \; \ldots \; + \lambda_n e_n$
-
-        $\mathcal{A}' v = \lambda_1 \mathcal{A}' e_1 + \; \ldots \; + \lambda_n \mathcal{A}' e_n =$
-
-        $ \lambda_1 w_1 + \; \ldots \; + \lambda_n w_n = \mathcal{A} v$
         $\Rightarrow \mathcal{A} = \mathcal{A}'$
     \end{enumerate}
 \end{proof}
@@ -260,14 +295,14 @@ Im \, \mathcal{A} = \{ w \in W \; | \; \exists v \in V \st w = \mathcal{A} v \}
 
 \begin{Proposition}{}{}
     \begin{enumerate}
-        \item $Ker \, \mathcal{A}$~--- линейное подпространства в $\mathbf{V}$
+        \item $Ker \, \mathcal{A}$~--- линейное подпространство в $\mathbf{V}$
         \item $Im \, \mathcal{A}$~--- линейное подпространство в $\mathbf{W}$
     \end{enumerate}
 \end{Proposition}
 
 \begin{proof}
 
-    $V' \subset V \Rightarrow$
+    $V' \subset V \Leftrightarrow$
     \begin{itemize}
         \item $0 \in V'$
         \item $v_1, v_2 \in V' \Rightarrow \lambda_1 v_1 + \lambda_2 v_2 \in V'$ 
@@ -302,18 +337,16 @@ Im \, \mathcal{A} = \{ w \in W \; | \; \exists v \in V \st w = \mathcal{A} v \}
             \exists \, v \in V \; | \; \mathcal{A}(v) = 0. \; (v = 0)
             \]
             \item $w_1, w_2 \in Im \mathcal{A} \overset{?}{\Rightarrow} \lambda_1 w_1 + \lambda_2 w_2 \in Im \mathcal{A}$
+            
+            $w_1, w_2 \in Im \mathcal{A} \Rightarrow$
+            $\exists \; v_1, v_2 \in V \st \mathcal{A}v_1 = w_1, \, \mathcal{A}v_2 = w_2$
+            
+            $\lambda_1 v_1 + \lambda_2 v_2 \in V (V - \text{пространство})$
             \[
-                \mathcal{A}^{-1}(\lambda_1 w_1 + \lambda_2 w_2) \not = \varnothing \Leftrightarrow \lambda_1 w_1 + \lambda_2 w_2 \in Im \mathcal{A}
+                \mathcal{A}(\lambda_1 v_1 + \lambda_2 v_2) = \lambda_1 \mathcal{A} v_1 + \lambda_2 \mathcal{A} v_2 = \lambda_1 w_1 + \lambda_2 w_2
             \]
-            (Если прообраз не пуст, то $\exists \; v \in V \st \mathcal{A}v = \lambda_1 w_1 + \lambda_2 w_2$)
-            \[
-            \mathcal{A}^{-1}(\lambda_1 w_1 + \lambda_2 w_2) = \lambda_1 \mathcal{A}^{-1}w_1 + \lambda_2 \mathcal{A}^{-1}w_2
-            \]
-            $w_1, w_2 \in Im \mathcal{A} \Rightarrow \mathcal{A}^{-1}w_i = v_i$
-            \[
-            \lambda_1 \mathcal{A}^{-1}w_1 + \lambda_2 \mathcal{A}^{-1}w_2 = \lambda_1 v_1 + \lambda_2 v_2 = v_3 \in V
-            \]
-            $\Rightarrow \lambda_1 w_1 + \lambda_2 w_2 \in Im \mathcal{A}, \; \text{так как} \; \exists \; v_3 \in V \st \mathcal{A}(v_3) = \lambda_1 w_1 + \lambda_2 w_2$
+            Тогда $\lambda_1 v_1 + \lambda_2 v_2 \in \mathcal{A}^{-1}(\lambda_1 w_1 + \lambda_2 w_2) \Rightarrow$
+            \[ \lambda_1 w_1 + \lambda_2 w_2 \in Im \mathcal{A}\]
         \end{itemize}
     \end{enumerate}
 \end{proof}
@@ -343,51 +376,134 @@ Im \, \mathcal{A} = \{ w \in W \; | \; \exists v \in V \st w = \mathcal{A} v \}
 
     Хотим: $\mathcal{A}e_{d+1}, \ldots, \mathcal{A}e_{n}$~--- базис $Im \mathcal{A}$
 
-    $w \in Im \mathcal{A} \Rightarrow w = \mathcal{A}v, v \in V$. Разложим $v$ по базису
+    $w \in Im \mathcal{A} \Rightarrow v \in V \st \mathcal{A}v = w$.
+
+    \begin{enumerate}
+        \item Разложение существует:
+        
+        \[ w = \mathcal{A}v = \mathcal{A}(\alpha_1 e_1 + \ldots + \alpha_d e_d + \alpha_{d+1} e_{d+1} + \ldots + \alpha_n e_n) \]
+        \[ \alpha_1 e_1 + \ldots + \alpha_d e_d = v' \in Ker \mathcal{A}, \Rightarrow v' = 0. \Rightarrow \]
+        \[ w = \mathcal{A}(\alpha_{d+1} e_{d+1} + \ldots + \alpha_n e_n) = \alpha_{d+1} \mathcal{A} e_{d+1} + \ldots + \alpha_n \mathcal{A} e_n \]
+
+        \item Разложение единственно:
+        
+        Пусть не так.        
+        \[ w = \alpha_{d+1} \mathcal{A} e_{d+1} + \ldots + \alpha_n \mathcal{A} e_n = \alpha_{d+1}' \mathcal{A} e_{d+1} + \ldots + \alpha_n' \mathcal{A} e_n \]
+        \[ \alpha_{d+1} \mathcal{A} e_{d+1} + \ldots + \alpha_n \mathcal{A} e_n - (\alpha_{d+1}' \mathcal{A} e_{d+1} + \ldots + \alpha_n' \mathcal{A} e_n) = 0 \]
+        \[ (\alpha_{d+1} - \alpha_{d+1}') \cdot \mathcal{A} e_{d+1} + \ldots + (\alpha_n - \alpha_n') \cdot \mathcal{A} e_n = 0 \]
+        \[ \mathcal{A} \left( (\alpha_{d+1} - \alpha_{d+1}') \cdot e_{d+1} + \ldots + (\alpha_n - \alpha_n') \cdot e_n \right) = 0 \in W \]
+        Тогда $(\alpha_{d+1} - \alpha_{d+1}') \cdot e_{d+1} + \ldots + (\alpha_n - \alpha_n') \cdot e_n = v' \in Ker \mathcal{A}$
+
+        Но если $e_1, \ldots, e_d$~--- базис $Ker \mathcal{A} \Rightarrow e_{d+1}, \ldots, e_n$ можно выразить через $e_1, \ldots, e_d$. (?!)
+    \end{enumerate}
+    
+    $\Rightarrow e_{d+1}, \ldots, e_n$~--- базис $Im \mathcal{A}$ и $Im \mathcal{A} = n - d < \infty$.
+\end{proof}
+
+\subsubsection{РСЛУ и ранг отображения.}
+
+\begin{Theorem}{Множество решений РСЛУ}{}
+    Пусть $A \in K^{m \times n}$.
+
+    Тогда \textbf{множество решений} однородной системы линейных уравнений с матрицей $A$~---
+     линейное \textbf{подпространство} в $K^n$ размерности $(\mathbf{n - rk A})$
+
+    ($A$~--- \textbf{расширенная} СЛУ, к матрице дописали столбец значений)
+\end{Theorem}
+
+\begin{proof}
+    Пусть $H$~--- множество решений СЛУ:
+    \[
+    H := \left\{ 
+    \begin{pmatrix} x_1 \\ | \\ x_n \end{pmatrix} \st
+    A \cdot 
+    \begin{pmatrix} x_1 \\ | \\ x_n \end{pmatrix} = 
+    \begin{pmatrix} 0 \\ | \\ 0 \end{pmatrix}
+    \right\} 
+    \] 
+
+    Пусть $\mathcal{A} := "A \cdot", \mathcal{A}$~--- линейное отображение (как утверждалось в примере).
+
+    Тогда
 
     \[
-    v = \alpha_1 e_1 + \ldots + \alpha_d e_d + \alpha_{d+1} e_{d+1} + \ldots + \alpha_n e_n \;\; \text{(и такое разложение единственно)}
+    A \cdot 
+    \begin{pmatrix} x_1 \\ | \\ x_n \end{pmatrix} = 
+    \mathcal{A}\left(\begin{pmatrix} x_1 \\ | \\ x_n \end{pmatrix}\right)
     \]
     \[
-    \alpha_1 e_1 + \ldots + \alpha_d e_d = v' \in Ker \mathcal{A}, \Rightarrow v' = 0.
+    \mathcal{A}(\begin{pmatrix} x_1 \\ | \\ x_n \end{pmatrix}) = 0 = \begin{pmatrix} 0 \\ | \\ 0 \end{pmatrix} \Rightarrow
+    \begin{pmatrix} x_1 \\ | \\ x_n \end{pmatrix} \in Ker \mathcal{A}
     \]
 
-    Тогда:
+    $\mathcal{A} = "A \cdot" \st K^n \longrightarrow K^m$
     \[
-    v = \alpha_1 e_1 + \ldots + \alpha_d e_d + \alpha_{d+1} e_{d+1} + \ldots + \alpha_n e_n = 0 + \alpha_{d+1} e_{d+1} + \ldots + \alpha_n e_n
+    \dim H = \dim Ker \mathcal{A} = \dim K^n - \dim Im (A \mathbf{\cdot}) =
+    n - \dim Lin\left(A[ , 1], \ldots, A[ , n] \right)
     \]
-    \[
-    \mathcal{A}(v) = \mathcal{A}(\alpha_{d+1} e_{d+1} + \ldots + \alpha_n e_n) \in Lin(\mathcal{A}e_{d+1}, \ldots, \mathcal{A}e_n)
-    \]
-
-    Так как $w$ - произвольный вектор из $Im \mathcal{A}$, то 
     
     \[
-    Lin(\mathcal{A}e_{d+1}, \ldots, \mathcal{A}e_n) = Im \mathcal{A}
+    A \cdot \begin{pmatrix} x_1 \\ | \\ x_n \end{pmatrix} = 
+    \begin{pmatrix}
+    \sum^n_{k=0}\left(x_k \cdot A[1,k] \right) \\
+    | \\
+    \sum^n_{k=0}\left(x_k \cdot A[n,k] \right)
+    \end{pmatrix} =
     \]
+    \vspace{1\baselineskip}
+    \[
+    \sum^n_{k=0} x_k \cdot
+    \begin{pmatrix}
+     A[1,k] \\
+    | \\
+    A[n,k]
+    \end{pmatrix} =
+    x_1 \cdot A[, 1] + \ldots + x_n \cdot A[, n]
+    \]
+    Отсюда видно, что $A[ , 1], \ldots, A[ , n]$ (столбцы $A$) ~--- базисные векторы подпространства $K^n$. 
+    Их линейная оболочка~--- все возможные образы $\mathcal{A}v \Rightarrow Im \mathcal{A} = Lin\left(A[ , 1], \ldots, A[ , n] \right)$
+    
+    При этом $\dim Lin\left(A[ , 1], \ldots, A[ , n] \right)$~--- ранг матрицы $rk A$ по определению.
 
-    $\mathcal{A}e_{d+1}, \ldots, \mathcal{A}e_n$~--- системообразующие, но  
-    хотя $e_{d+1}, \ldots, e_n$~--- ЛНС, \\ это не означает линейную независимость $\mathcal{A}e_{d+1}, \ldots, \mathcal{A}e_n$
+    Получаем:
 
-    От противного: пусть $\exists$ \; не тривиальная комбинация $\lambda_1 \mathcal{A}e_{d+1} + \ldots + \lambda_{n-d} \mathcal{A}e_n = 0$ 
-
-    \[
-    \lambda_1 \mathcal{A}e_{d+1} + \ldots + \lambda_{n-d} \mathcal{A}e_n = 0 \Rightarrow \linebreak
-    \mathcal{A}(\lambda_1 e_{d+1} + \ldots + \lambda_{n-d} e_n) = 0 \linebreak 
-    \Rightarrow \lambda_1 e_{d+1} + \ldots + \lambda_{n-d} e_n \in Ker \mathcal{A}
-    \]
-    Разложим вектора $\lambda_1 e_{d+1} + \ldots + \lambda_{n-d} e_n$ по базису $Ker \mathcal{A}$
-    \[
-    \lambda_1 e_{d+1} + \ldots + \lambda_{n-d} e_n = \alpha_1 e_1 + \ldots + \alpha_d e_d
-    \]
-    \[
-    (-\alpha_1 e_1) + \ldots + (-\alpha_d e_d) + \lambda_1 e_{d+1} + \ldots + \lambda_{n-d} e_n = 0;
-    \]
-    \[
-    \Rightarrow \alpha_1 = \ldots = \alpha_d = \lambda_1 = \ldots = \lambda_{n - d} = 0 \; \text{(разложение нуля единственно)}
-    \]
-    Тогда комбинация тривиальная. (?!) $\Rightarrow e_{d+1}, \ldots, e_n$~--- базис $Im \mathcal{A}$ и $Im \mathcal{A} = n - d < \infty$.
+    $\mathbf{dim H} = \dim Ker \mathcal{A} = \dim K^n - \dim Im \mathcal{A} = \mathbf{n - rk A}$
 \end{proof}
+
+\textbf{Следствие:}
+
+СЛУ~--- определенная $\Longleftrightarrow rk A =$ число неизвестных.
+
+(И. Б. Жуков доказательства не приводил)
+
+\begin{proof}
+
+    \begin{itemize}
+        \item `$\Rightarrow$`:
+        
+        \[
+        \begin{pmatrix} x_1 \\ | \\ x_n \end{pmatrix} \, \text{~--- решение} \; \Rightarrow
+        \alpha \cdot \begin{pmatrix} x_1 \\ | \\ x_n \end{pmatrix} \, \text{~--- также решение,} \Rightarrow
+        \]
+        \[ 
+        Lin \left(\begin{pmatrix} x_1 \\ | \\ x_n \end{pmatrix}\right) = H, \; \dim Lin \left( \begin{pmatrix} x_1 \\ | \\ x_n \end{pmatrix} \right) = 1 \overset{\text{теорема}}{=} n - rk A \Rightarrow
+        \]
+        \[
+        rk A = n - 1 = \; \text{количество неизвестных}
+        \]
+        $A \in K^{m \times n} \Rightarrow n = $ количество столбцов $=$ количество неизвестных $\mathbf{+ 1}$ (последний столбец~--- значения уравнений)
+        
+        \item $`\Leftarrow`:$
+        
+        $n = | \, \text{незвестных} \, | + 1 \Rightarrow n = rk A + 1 \Rightarrow$
+
+        \[
+        \dim H \overset{\text{теорема}}{=} n - rk A = 1
+        \]
+        Пусть $e$~--- базис H. Тогда любое решение $X \in H$ представляется в виде $\alpha \cdot e \Rightarrow e$~--- единственный вектор-решение, вплоть до умножения на скаляр.
+    \end{itemize}
+\end{proof}
+
 
 \subsubsection{Инъективность и сюрьективность линейного отображения.}
 
@@ -512,110 +628,6 @@ $\mathcal{A}$~--- инъективно $\Leftrightarrow Ker \mathcal{A} = \{ 0 \
     \[
     Ker \mathcal{A} = \{ 0 \} = 0 \Leftrightarrow \dim Im \mathcal{A} = n \overset{\text{предложение}}{\Rightarrow} Im \mathcal{A} = W
     \]
-\end{proof}
-
-\subsubsection{РСЛУ и ранг отображения.}
-
-\begin{Theorem}{Множество решений РСЛУ}{}
-    Пусть $A \in K^{m \times n}$.
-
-    Тогда \textbf{множество решений} однородной системы линейных уравнений с матрицей $A$~---
-     линейное \textbf{подпространство} в $K^n$ размерности $(\mathbf{n - rk A})$
-
-    ($A$~--- \textbf{расширенная} СЛУ, к матрице дописали столбец значений)
-\end{Theorem}
-
-\begin{proof}
-    Пусть $H$~--- множество решений СЛУ:
-    \[
-    H := \left\{ 
-    \begin{pmatrix} x_1 \\ | \\ x_n \end{pmatrix} \st
-    A \cdot 
-    \begin{pmatrix} x_1 \\ | \\ x_n \end{pmatrix} = 
-    \begin{pmatrix} 0 \\ | \\ 0 \end{pmatrix}
-    \right\} 
-    \] 
-
-    Пусть $\mathcal{A} := "A \cdot", \mathcal{A}$~--- линейное отображение (как утверждалось в примере).
-
-    Тогда
-
-    \[
-    A \cdot 
-    \begin{pmatrix} x_1 \\ | \\ x_n \end{pmatrix} = 
-    \mathcal{A}\left(\begin{pmatrix} x_1 \\ | \\ x_n \end{pmatrix}\right)
-    \]
-    \[
-    \mathcal{A}(\begin{pmatrix} x_1 \\ | \\ x_n \end{pmatrix}) = 0 = \begin{pmatrix} 0 \\ | \\ 0 \end{pmatrix} \Rightarrow
-    \begin{pmatrix} x_1 \\ | \\ x_n \end{pmatrix} \in Ker \mathcal{A}
-    \]
-
-    $\mathcal{A} = "A \cdot" \st K^n \longrightarrow K^m$
-    \[
-    \dim H = \dim Ker \mathcal{A} = \dim K^n - \dim Im (A \mathbf{\cdot}) =
-    n - \dim Lin\left(A[ , 1], \ldots, A[ , n] \right)
-    \]
-    
-    \[
-    A \cdot \begin{pmatrix} x_1 \\ | \\ x_n \end{pmatrix} = 
-    \begin{pmatrix}
-    \sum^n_{k=0}\left(x_k \cdot A[1,k] \right) \\
-    | \\
-    \sum^n_{k=0}\left(x_k \cdot A[n,k] \right)
-    \end{pmatrix} =
-    \]
-    \vspace{1\baselineskip}
-    \[
-    \sum^n_{k=0} x_k \cdot
-    \begin{pmatrix}
-     A[1,k] \\
-    | \\
-    A[n,k]
-    \end{pmatrix} =
-    x_1 \cdot A[, 1] + \ldots + x_n \cdot A[, n]
-    \]
-    Отсюда видно, что $A[ , 1], \ldots, A[ , n]$ (столбцы $A$) ~--- базисные векторы подпространства $K^n$. 
-    Их линейная оболочка~--- все возможные образы $\mathcal{A}v \Rightarrow Im \mathcal{A} = Lin\left(A[ , 1], \ldots, A[ , n] \right)$
-    
-    При этом $\dim Lin\left(A[ , 1], \ldots, A[ , n] \right)$~--- ранг матрицы $rk A$ по определению.
-
-    Получаем:
-
-    $\mathbf{dim H} = \dim Ker \mathcal{A} = \dim K^n - \dim Im \mathcal{A} = \mathbf{n - rk A}$
-\end{proof}
-
-\textbf{Следствие:}
-
-СЛУ~--- определенная $\Longleftrightarrow rk A =$ число неизвестных.
-
-(И. Б. Жуков доказательства не приводил)
-
-\begin{proof}
-
-    \begin{itemize}
-        \item `$\Rightarrow$`:
-        
-        \[
-        \begin{pmatrix} x_1 \\ | \\ x_n \end{pmatrix} \, \text{~--- решение} \; \Rightarrow
-        \alpha \cdot \begin{pmatrix} x_1 \\ | \\ x_n \end{pmatrix} \, \text{~--- также решение,} \Rightarrow
-        \]
-        \[ 
-        Lin \left(\begin{pmatrix} x_1 \\ | \\ x_n \end{pmatrix}\right) = H, \; \dim Lin \left( \begin{pmatrix} x_1 \\ | \\ x_n \end{pmatrix} \right) = 1 \overset{\text{теорема}}{=} n - rk A \Rightarrow
-        \]
-        \[
-        rk A = n - 1 = \; \text{количество неизвестных}
-        \]
-        $A \in K^{m \times n} \Rightarrow n = $ количество столбцов $=$ количество неизвестных $\mathbf{+ 1}$ (последний столбец~--- значения уравнений)
-        
-        \item $`\Leftarrow`:$
-        
-        $n = | \, \text{незвестных} \, | + 1 \Rightarrow n = rk A + 1 \Rightarrow$
-
-        \[
-        \dim H \overset{\text{теорема}}{=} n - rk A = 1
-        \]
-        Пусть $e$~--- базис H. Тогда любое решение $X \in H$ представляется в виде $\alpha \cdot e \Rightarrow e$~--- единственный вектор-решение, вплоть до умножения на скаляр.
-    \end{itemize}
 \end{proof}
 
 \subsubsection{Матрица линейного отображения.}
