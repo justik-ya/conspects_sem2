@@ -4,9 +4,9 @@
 
 \subsection{Неравенства.}
 
-\begin{Theorem}{Коши-Буняковского-Шварца}{}
+\begin{Theorem}{Неравенство Гёльдера}{}
     \[
-    \left(\int^b_a | (f \cdot g) (x) | dx \right)^2 \le \int^b_a |f(x)|^2 dx \cdot \int^b_a |g(x)|^2 dx
+    \int^b_a | (f \cdot g) (x) | dx \le \left(\int^b_a |f(x)|^p dx \right)^\frac{1}{p} \cdot \left(\int^b_a |g(x)|^q dx \right)^\frac{1}{q}
     \]
 \end{Theorem}
 \begin{proof}
@@ -70,14 +70,28 @@
     \int^b_a |f(x) \cdot g(x)| dx = 0
     \]
     
-    Д-во:
+    Доказательство:
+    \[
+    \left(\int^b_a |f(x)|^p dx \right)^{\frac{1}{p}} = 0 \Leftrightarrow 
+    \int^b_a |f(x)|^p dx = 0 \Leftrightarrow 
+    \]
+    \[
+    \Leftrightarrow |f(x)|^p = 0 \Leftrightarrow
+    f(x) = 0 \ \ \text{(за исключением конечного числа точек)}
+    \]
     \[
     \forall [c, d] \subset <a, b>, g - \ \ \text{интегрируема на} \ \ [c, d] \Rightarrow 
     \exists \ \ M(c, d) \st \underset{x \in [c, d]}{sup |g(x)|} \le M(c, d) < \infty
     \]
     \[
-    \int^d_c |f(x)g(x)| dx \le M(c, d) \cdot \int^d_c |f(x)| dx \le M(c, d) \cdot \int^b_a |f(x)| dx = 0
-    \]
+    \int^d_c |f(x)g(x)| dx \le M(c, d) \cdot \int^d_c |f(x)| dx \le 
+    \] 
+    $\le \, M(c, d) \cdot \int^b_a |f(x)| dx$ (увеличили границы интегрирования)
+
+    $f(x) = 0$ (за исключением конечного числа точек) $\Rightarrow \int^b_a |f(x)| dx = 0 \Rightarrow$
+
+    \[ 0 \le \int^d_c |f(x)g(x)| dx \le M(c, d)\cdot 0 = 0 \]
+    
     \[
     \lim_{c \rightarrow a, d \rightarrow b} \int^d_c |f(x) \cdot g(x)| dx \longrightarrow \int^b_a |f(x) \cdot g(x)| dx = 0
     \]
@@ -96,15 +110,27 @@
 \textbf{Следствие:}
 
 \[
-\int^b_a |f(x)| dx \le (b-a) \cdot \int^b_a |f(x)|^2 dx
+\left(\int^b_a |f(x)| dx\right)^2 \le (b-a) \cdot \int^b_a |f(x)|^2 dx
 \]
-(Положим f = g, p = q = 2, возведем левую часть в квадрат)
 
-(Отрезок от a до b конечный. Иначе тоже будет выполнено, но в этом нет смысла так как $+\infty$ и так больше чего угодно)
+\begin{proof}
+    $g(x) := 1 \ \ \forall x \in <a, b>, \qquad p = q := 2$
+    \[ 
+    \int_a^b{|f(x)\cdot g(x)| dx} \le \left(\int^b_a |f(x)|^2 dx \right)^\frac{1}{2} \cdot \left(\int^b_a |g(x)|^2 dx \right)^\frac{1}{2} \qquad | \mbox{\textasciicircum} 2
+    \]
+    \[
+    \left(\int^b_a{|f(x)\cdot 1| dx}\right)^2 \le \int^b_a|f(x)|^2 dx \cdot \int^b_a 1 \, dx
+    \]
+    \[
+    \left(\int_a^b{|f(x)| dx}\right)^2 \le \int^b_a|f(x)|^2 dx \cdot (b-a)
+    \]
+\end{proof}
+
+(Отрезок от a до b конечный. Иначе тоже будет выполнено, но в этом нет смысла так как $+\infty$ больше чего угодно)
 
 \begin{Theorem}{Неравенство Минковского}{}
 
-    Пусть $<a, b> \subset \overline{RR} = [-\infty; +\infty]$~--- промежуток
+    Пусть $<a, b> \subset \overline{\RR} = [-\infty; +\infty]$~--- промежуток
 
     $f, g$~--- интегрируемы на $[c, d] \subset <a, b> \forall c, d$
 
@@ -124,20 +150,18 @@
     $p = 1$:
 
     Получаем
-    \[ \int^b_a |f(x)| dx + \int^b_a | g(x) | dx \ge \int^b_a |f + g| (x) dx \]
-    Что верно для интегралов
+    \[
+     \int^b_a |f(x)| dx + \int^b_a | g(x) | dx = \int_{a}^{b} |f(x)| + |g(x)| dx \ge \int^b_a |f + g| (x) dx 
+    \]
+    
 
-    $p \in (1; +\infty)$:
+    Теперь пусть $p \in (1; +\infty)$:
 
     Пусть $||f||_{L^p}, ||g||_{L^p} < +\infty$ (иначе выполнено автоматически)
 
-    Тогда \[ \forall x |f(x) + g(x) | ^p \le 2^{p-1}\cdot(|f(x)|^p+{g(x)}^p) \]
+    Нужно показать, что $||f+g||_{L^p} < +\infty$
 
-    \[ \rightarrow (a + b)^p \le 2^{p-1}\cdot(a^p+b^p) \qquad a, b \ge 0 - \text{"неравенство на положительные числа"} \]
-
-    \[ \int^b_a |f+g|(x) dx = ||f+g||^p_{L^p} < +\infty \] (если левая часть конечна, то правая конечна)
-
-    \textbf{Докажем} $(a + b)^p \le 2^{p-1}(a^p+b^p)$
+    \textbf{Докажем} $(a + b)^p \le 2^{p-1}(a^p+b^p) \qquad a, b \ge 0 - \text{"неравенство на положительные числа"}$
 
     \[ \int^b_a |f+g|(x)dx \le ||f+g||_{L^p} < + \infty \]
     --- выпуклость
@@ -147,10 +171,24 @@
     Для двух точек $\alpha, \beta$ среднее значение $\ge$ реальное значение на выпуклости:
 
     \[ \frac{\alpha^p}{2} + \frac{\beta^p}{2} \ge \left( \frac{\alpha + \beta}{2} \right)^p \]
+    \textbf{ч.т.д.}
+
+    Применяя неравенство получаем:
+
+    \[ \forall x \qquad |f(x) + g(x) | ^p \le 2^{p-1}\cdot(|f(x)|^p+|g(x)|^p) \]
+
+    Интегрируя это неравенство на $<a, b>$:
+
+    \[ \int^b_a |f+g|^p(x) dx \le 2^{p-1} \cdot \left(\int_a^b|f(x)|^p dx + \int_a^b |g(x)|^p dx\right) \]
+
+    \[ ||f+g||^p_{L^p} \ \ \le \ \ const \cdot (||f(x)||^p + ||g(x)||^p) < +\infty \]
+    ($||f(x)||^p_{L^p} < +\infty, ||g(x)||^p_{L^p} < +\infty$ по условию выше)
+
+    Итак, $||f+g||^p_{L^p} < +\infty$.
 
     Теперь к доказательству:
 
-    Норма $f + g \not = 0$, иначе нечего доказывать
+    $||f + g||_{L^p} \not = 0$, иначе нечего доказывать
 
     \[
     ||f+g||^p_{L^p} = \int^b_a |f+g|^p(x) dx = \int^b_a |f+g|^{p-1}(x) \cdot |f+g|(x) dx \overset{\text{нер-во тр-ка}}{\le}  
@@ -174,50 +212,93 @@
     \cdot \left( \int^b_a |f(x)|^p dx \right)^{\frac{1}{p}} =
     \]
     \[
-    = \left(\int^b_a \left(|f+g|^p(x)\right)^{\frac{p-1}{p}} dx \right)^{1-\frac{1}{p}}
+    = \left(\int^b_a |f+g|^p(x) dx \right)^{1-\frac{1}{p}}
     \cdot \left( \int^b_a |f(x)|^p dx \right)^{\frac{1}{p}} = ||f+g||^{p-1}_{L^p}\cdot ||f||_{L^p}
     \]
 
-    Оценка второго:
+    Второй интеграл оценивается аналогично:
+
+    \[ \int_a^b|g(x)|\cdot|f+g|^{-1}(x) dx \le ||f+g||_{L^p}^{p-1}\cdot||g||_{L^p}\]
+    
+    Применяя обе оценки:
+
     \[
-    \int^b_a |g(x)||f + g|^{-1}(x) dx \le ||f+g||^{p-1}_{L^p}\cdot||f||_{L^p} + ||f+g||^{p-1}_{L^p}\cdot||g||_{L^p}
+    ||f+g||_{L^p}^p \le ||f+g||^{p-1}_{L^p}\cdot||f||_{L^p} + ||f+g||^{p-1}_{L^p}\cdot||g||_{L^p}
     \]
     \[
-     0 \not = ||f+g||_{L^p} \le ||f+g||^{p-1}_{L^p}\cdot||f||_{L^p} + ||f+g||^{p-1}_{L^p}\cdot||g||_{L^p} \Rightarrow
+    ||f+g||_{L^p}^p \le ||f+g||_{L^p}^{p-1} \cdot (||f||_{L^p} + ||g||_{L^p})
     \]
-    $||f+g||_{L^p} \le ||f||_{L^p}+||g||_{L^p}$
+    \[
+     0 < ||f+g||_{L^p} \le ||f||_{L^p}+||g||_{L^p}
+    \]
+
 \end{proof}
 
 \textbf{Следствие:}
 
-\begin{Proposition}{Неравенство Гельдера и Минковского для сумм}{}
+\begin{Proposition}{Неравенства Гельдера и Минковского для сумм}{}
     
     Пусть $a_k, b_k \ge 0 \qquad k = 1 \ldots N$
 
-    Тогда для $p, q \st \frac{1}{p} + \frac{1}{q} = 1:$
-    \[
-    \sum^N_{k=1}a_k \cdot b_k \le (\sum^N_{k=1}a^p_k)^{\frac{1}{p}}\cdot(\sum^N_{k=1}b^q_k)^{\frac{1}{q}}
-    \]
+    Тогда:
+
+    \begin{enumerate}
+        \item \[
+            \sum^N_{k=1}a_k \cdot b_k \le \left(\sum^N_{k=1}a^p_k\right)^{\frac{1}{p}}\cdot \left(\sum^N_{k=1}b^q_k \right)^{\frac{1}{q}}, \qquad p, q > 0 \st \frac{1}{p} + \frac{1}{q} = 1
+            \]
+        \item \[
+            \left(\sum^N_{k=1}(a_k + b_k)^p \right)^\frac{1}{p} \le \left(\sum^N_{k=1}(a_k)^p\right)^{\frac{1}{p}} + \left(\sum^N_{k=1}(b_k)^p\right)^{\frac{1}{p}}, \qquad p \in [1, +\infty)
+            \]
+    \end{enumerate}
+    
+    
 \end{Proposition}
 
 \begin{proof}
 
-    Минковский:
+    Пусть $f, g$~--- \textbf{ступенчатые} функции. 
 
-    \[
-    (\sum^N_{k=1}a^p_k)^{\frac{1}{p}} + (\sum^N_{k=1}b^p_k)^{\frac{1}{p}} \ge
-    (\sum^N_{k=1}(a_k + b_k)^p)^{\frac{1}{p}}
+    На каждом отрезке $[k; k+1] f, g$ принимают значения $a_{k+1}, b_{k+1}$ соответсвенно. ($k \in \NN$)
+
+    Тогда на промежутке от $[0; N]$:
+    
+    \begin{enumerate}
+    \item \[
+    \left(\int_0^N |f(x)|^p dx \right)^\frac{1}{p} = \left(\sum^N_{k=1}(a_k)^p\right)^{\frac{1}{p}}
     \]
-    Берем промежуток от 0 до $N$. Тогда $\int^N_0 f = \sum^N_{k=1}$
+    \item \[
+    \left(\int_0^N |g(x)|^q dx \right)^\frac{1}{q} = \left(\sum^N_{k=1}(b_k)^q\right)^{\frac{1}{q}}
+    \]
+    \item \[
+    \int_0^N |f(x) \cdot g(x)| dx = \sum^N_{k=1}(a_k \cdot b_k)
+    \]
+    \item \[
+    \left(\int_0^N |g(x)|^p dx \right)^\frac{1}{p} = \left(\sum^N_{k=1}(b_k)^p\right)^{\frac{1}{p}}
+    \]
+    \item \[
+    \left(\int_0^N |f(x) + g(x)|^p dx \right)^\frac{1}{p} = \left(\sum^N_{k=1}(a_k + b_k)^p \right)^\frac{1}{p}
+    \]
+    \end{enumerate}
+    
+
+    Подставив $(1), (2), (3)$ в неравенство Гёльдера, получим:
+    \[
+    \sum^N_{k=1}a_k \cdot b_k \le \left(\sum^N_{k=1}a^p_k\right)^{\frac{1}{p}}\cdot \left(\sum^N_{k=1}b^q_k \right)^{\frac{1}{q}}
+    \]
+
+    Подставив $(1), (4), (5)$ в неравенство Минковского, получим:
+    \[
+    \left(\sum^N_{k=1}(a_k + b_k)^p \right)^\frac{1}{p} \le \left(\sum^N_{k=1}(a_k)^p\right)^{\frac{1}{p}} + \left(\sum^N_{k=1}(b_k)^p\right)^{\frac{1}{p}}
+    \]
 
     \begin{remark}
-        Сумма - интеграл подходяще выверенной функции.
+        Сумма~--- интеграл подходяще выверенной функции.
     \end{remark}
 \end{proof}
 
 \begin{Theorem}{Неравенство Йенсена}{}
 
-    Пусть $f, g$~--- интегрируемы на $[c, d] \subset <a, b> \forall c, d$ и несобственные интегралы сходятся
+    Пусть $f, g$~--- интегрируемы на $[c, d] \subset <a, b> \forall c, d$ их несобственные интегралы сходятся
 
     Также пусть $g(x) \ge 0, \int^b_a g(x) dx = 1$ (можно нормировать функцию для такого значения)
 
@@ -232,7 +313,7 @@
 
     В частности, если $<a, b> \subset (-\infty, +\infty):$
     \[
-    \vphi\left( \frac{1}{b-1}\cdot\int^b_af(x)dx\right) \le \frac{1}{b-a}\cdot \int^b_a \vphi(f(x))dx
+    \vphi\left( \frac{1}{b-a}\cdot\int^b_af(x)dx\right) \le \frac{1}{b-a}\cdot \int^b_a \vphi(f(x))dx
     \]
 
 \end{Theorem}
@@ -249,12 +330,17 @@
     \vphi\left(\frac{\sum^N_{k=1}a_kx_k}{\sum^N_{k=1}a_k}\right) \le \frac{\sum^N_{k=1}a_k\vphi(x_k)}{\sum^N_{k=1}a_k}
     \]
 
-    $\alpha := \frac{a_k}{\sum^N_{k=1}a_k}$, тогда $\alpha_k \ge 0$~--- выпуклая комбинация. $\sum^N_{k=1}\alpha_k = 1$
+    \[
+    \alpha_k := \frac{a_k}{\sum^N_{k=1}a_k}
+    \] 
+    тогда $\alpha_k \ge 0$~--- выпуклая комбинация. $\sum^N_{k=1}\alpha_k = 1$
 
     $\vphi \left(\sum^N_{k=1}\alpha_kx_k\right) \le \sum^N_{k=1}\alpha_k\vphi(x_k)$
 
     Вследствие выпуклости: среднее значение $ = \sum\alpha_k\vphi(x_k)$,
     реальное значение $= \vphi(\sum\alpha_kx_k)$
+
+    (можно доказать графиком, начертив выпуклую функцию, либо по индукции)
 
     Перейдем к пределу и получим неравенство
 
@@ -268,7 +354,7 @@
 
 \subsection{Кривые в пространстве.}
 
-Рассматрим вопросы:
+Рассмотрим вопросы:
 
 \begin{itemize}
     \item Что такое длина кривой $\gamma$?
@@ -291,7 +377,21 @@ $x, y \in \RR^d. x = \left(x_1, \ldots, x_d \right),  y = \left(y_1, \ldots, y_d
         \item $|x - y| = 0 \Leftrightarrow \sum^d_{k=1}(x_k - y_k)^2 = 0 \Leftrightarrow (x_k - y_k)^2 = 0 \ \ \forall \ \ k$
         
         $\Leftrightarrow x_k = y_k \ \ \forall k \Leftrightarrow x = y$
-        \item $|x - y| + |y - z| \ge |x - z|$ (.)
+        \item $|x - y| + |y - z| \ge |x - z|$
+        \[
+        a_k := x_k - y_k, \; b_k := y_k - z_k \Rightarrow a_k + b_k = x_k - z_k.
+        \]
+
+        Тогда для последовательностей $a_k, b_k$ по неравенству Минковского для сумм при $p = 2$ получим:
+
+        \[
+        \left(\sum^N_{k=1}(x_k-z_k)^2 \right)^\frac{1}{2} \le \left(\sum^N_{k=1}(x_k-y_k)^2\right)^{\frac{1}{2}} + \left(\sum^N_{k=1}(y_k-z_k)^2\right)^{\frac{1}{2}}
+        \]
+
+        Что по определению
+        \[
+        |x - z| \le |x - y| + |y - z|
+        \]
         
     \end{itemize}
 \end{proof}
@@ -328,7 +428,7 @@ $x, y \in \RR^d. x = \left(x_1, \ldots, x_d \right),  y = \left(y_1, \ldots, y_d
     \textbf{Ломаная}~--- кривая, что отрезок $I = [t_0; t_N]$ \textbf{разбивается} на конечное число отрезков, таких что
 
     \[
-    \forall \ \ k \vphi_k(t) \qquad t_j \le t \le t_{j+1}
+    \forall \ \ k \st \vphi_k(t) \qquad t_j \le t \le t_{j+1}
     \]
     --- \textbf{линейная} функция.
 \end{Definition}
@@ -367,16 +467,16 @@ $x, y \in \RR^d. x = \left(x_1, \ldots, x_d \right),  y = \left(y_1, \ldots, y_d
 $I = (0, 1], \qquad \vphi(t) = (t, \sin{\frac{1}{t}})$~--- не спрямляема.
 
 
-\begin{Proposition}{}{}
+\begin{Definition}{}{}
     Если $\Gamma$~--- спрямляемая кривая в $\RR^d$, то 
     \[
-    l(\Gamma) := sup \{ l(\Gamma') \st \Gamma' - \text{ломаная, вписанная в } \ \ \Gamma \}
+    l(\Gamma) := \sup \{ l(\Gamma') \st \Gamma' - \text{ломаная, вписанная в } \ \ \Gamma \}
     \]
-\end{Proposition}
+\end{Definition}
 
 
-\begin{Theorem}{Длина спрямляемой прямой}{}
-    Пусть $\Gamma$~--- "главная" кривая в $\RR^d$, то есть 
+\begin{Theorem}{Длина спрямляемой кривой}{}
+    Пусть $\Gamma$~--- гладкая кривая (можем брать производные) в $\RR^d$, то есть 
 
     $\Gamma=\vphi(I),\ \ I=[a,b]\ \ \vphi=(\vphi_1, \ldots, \vphi_d)\ \ $
     $\vphi_k: I \rightarrow \RR,\ \ 1 \le k \le d$
@@ -401,7 +501,7 @@ $I = (0, 1], \qquad \vphi(t) = (t, \sin{\frac{1}{t}})$~--- не спрямляе
 
 \begin{proof}
     \[
-    \int^b_a \sqrt{\sum^d_{k=1}\ \ (\vphi'(t))^2}\ \ dt\ \ \le \qquad l(\Gamma) \qquad \le\ \ \int^b_a \sqrt{\sum^d_{k=1}\ \ (\vphi'(t))^2}\ \ dt
+    \int^b_a \sqrt{\sum^d_{k=1}\ \ (\vphi'(t))^2}\ \ dt\ \ \overset{(!)}{\le} \qquad l(\Gamma) \qquad \overset{(!)}{\le} \ \int^b_a \sqrt{\sum^d_{k=1}\ \ (\vphi'(t))^2}\ \ dt
     \]
     $l(\Gamma) = \sup \{ l(\Gamma') \st \Gamma' - \; \text{вписанная} \}$
 
@@ -468,7 +568,7 @@ $I = (0, 1], \qquad \vphi(t) = (t, \sin{\frac{1}{t}})$~--- не спрямляе
     Берем дробление ранга $k$, длина звена $=\int$. (здесь еще раз видно, что правильнее брать касательные)
     $k \rightarrow +\infty:$
     \[
-    |\vphi(t_{j+1}) - \vphi(t_j)| = \int^{t_{j+1}}_{t_j} \sqrt{} dt + o(|t_j - t_{j+1}|)
+    |\vphi(t_{j+1}) - \vphi(t_j)| = \int^{t_{j+1}}_{t_j} \sqrt{()} dt + o(|t_j - t_{j+1}|)
     \]
     $\sum \underset{k \rightarrow +\infty}{\longrightarrow} \sum$
 
