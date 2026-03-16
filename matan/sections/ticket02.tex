@@ -5,6 +5,7 @@
 \subsection{Неравенства.}
 
 \begin{Theorem}{Неравенство Гёльдера}{}
+    Для $p, q > 0, \ \ \frac{1}{p} + \frac{1}{q} = 1$
     \[
     \int^b_a | (f \cdot g) (x) | dx \le \left(\int^b_a |f(x)|^p dx \right)^\frac{1}{p} \cdot \left(\int^b_a |g(x)|^q dx \right)^\frac{1}{q}
     \]
@@ -65,20 +66,18 @@
 
     Пусть $\left(\int^b_a |f(x)|^p dx \right)^{\frac{1}{p}} = 0$
 
-    Докажем, что тогда
+    Тогда
     \[
     \int^b_a |f(x) \cdot g(x)| dx = 0
     \]
     
     Доказательство:
+
+    Утверждение:
     \[
-    \left(\int^b_a |f(x)|^p dx \right)^{\frac{1}{p}} = 0 \Leftrightarrow 
-    \int^b_a |f(x)|^p dx = 0 \Leftrightarrow 
+    \int^b_a |f(x)|^p dx = 0 \Longrightarrow \int^b_a |f(x)| dx = 0 
     \]
-    \[
-    \Leftrightarrow |f(x)|^p = 0 \Leftrightarrow
-    f(x) = 0 \ \ \text{(за исключением конечного числа точек)}
-    \]
+
     \[
     \forall [c, d] \subset <a, b>, g - \ \ \text{интегрируема на} \ \ [c, d] \Rightarrow 
     \exists \ \ M(c, d) \st \underset{x \in [c, d]}{sup |g(x)|} \le M(c, d) < \infty
@@ -88,9 +87,7 @@
     \] 
     $\le \, M(c, d) \cdot \int^b_a |f(x)| dx$ (увеличили границы интегрирования)
 
-    $f(x) = 0$ (за исключением конечного числа точек) $\Rightarrow \int^b_a |f(x)| dx = 0 \Rightarrow$
-
-    \[ 0 \le \int^d_c |f(x)g(x)| dx \le M(c, d)\cdot 0 = 0 \]
+    \[ 0 \le \int^d_c |f(x)g(x)| dx \le M(c, d)\cdot \int^b_a |f(x)| dx = M(c, d) \cdot 0 = 0 \]
     
     \[
     \lim_{c \rightarrow a, d \rightarrow b} \int^d_c |f(x) \cdot g(x)| dx \longrightarrow \int^b_a |f(x) \cdot g(x)| dx = 0
@@ -161,16 +158,18 @@
 
     Нужно показать, что $||f+g||_{L^p} < +\infty$
 
-    \textbf{Докажем} $(a + b)^p \le 2^{p-1}(a^p+b^p) \qquad a, b \ge 0 - \text{"неравенство на положительные числа"}$
+    \textbf{Докажем} $(a + b)^p \le 2^{p-1}(a^p+b^p) \qquad a, b \ge 0 - \text{"неравенство на положительные числа"}$:
 
-    \[ \int^b_a |f+g|(x)dx \le ||f+g||_{L^p} < + \infty \]
-    --- выпуклость
+    \[
+    f\left(\frac{a+b}{2}\right) \le \frac{f(a) + f(b)}{2}
+    \]
+    --- выпуклость.
 
-    Функция $t^p, \ \ p > 1$ выпуклая вниз на $[0; +\infty)$
+    $f(t) := t^p, \ \ p > 1 \Rightarrow$ выпуклая вниз на $[0; +\infty)$
 
-    Для двух точек $\alpha, \beta$ среднее значение $\ge$ реальное значение на выпуклости:
+    Для двух точек $a, b$ среднее значение $\ge$ реальное значение на выпуклости:
 
-    \[ \frac{\alpha^p}{2} + \frac{\beta^p}{2} \ge \left( \frac{\alpha + \beta}{2} \right)^p \]
+    \[ \frac{a^p}{2} + \frac{b^p}{2} \ge \left( \frac{a + b}{2} \right)^p \]
     \textbf{ч.т.д.}
 
     Применяя неравенство получаем:
@@ -234,7 +233,28 @@
 
 \end{proof}
 
-\textbf{Следствие:}
+\begin{remark}
+
+    Существует "обратное" неравенство Минковсокго, которое доказаывается точно также:
+\end{remark}
+
+\begin{Proposition}{Обратное неравенство Минковского}{}
+
+    $<a, b> \subset \overline{\RR} = [-\infty; +\infty]$~--- промежуток.
+
+    $f, g$~--- интегрируемы на $[c, d] \subset <a, b> \forall c, d$
+
+    $0 < p \le 1$:
+
+    \[ ||f+g||_{L^p} \ge ||f||_{L^p} + ||g||_{L^p}. \]
+\end{Proposition}
+
+\begin{remark}
+    По индукции несложно показать, что неравенство минковского работает для любого количества слагаемых.
+\end{remark}
+
+\vspace{2\baselineskip}
+Рассмотрим частный случай интегралов~--- суммы:
 
 \begin{Proposition}{Неравенства Гельдера и Минковского для сумм}{}
     
@@ -250,7 +270,6 @@
             \left(\sum^N_{k=1}(a_k + b_k)^p \right)^\frac{1}{p} \le \left(\sum^N_{k=1}(a_k)^p\right)^{\frac{1}{p}} + \left(\sum^N_{k=1}(b_k)^p\right)^{\frac{1}{p}}, \qquad p \in [1, +\infty)
             \]
     \end{enumerate}
-    
     
 \end{Proposition}
 
@@ -309,7 +328,7 @@
     \vphi\left(\int^b_a g(x)f(x) dx\right) \le \int^b_a \vphi(f(x))g(x) dx
     \]
 
-    ($\vphi$ от мат ожидания = мат ожидание от $\vphi$)
+    ($\vphi$ от мат ожидания $\le$ мат ожидание от $\vphi$)
 
     В частности, если $<a, b> \subset (-\infty, +\infty):$
     \[
@@ -500,12 +519,111 @@ $I = (0, 1], \qquad \vphi(t) = (t, \sin{\frac{1}{t}})$~--- не спрямляе
 \end{remark}
 
 \begin{proof}
+
+    Построим последовательность $\{l(\Gamma'_k)\}$, предел который будет равен $l(\Gamma) = \sup(l(\Gamma'))$.
+
+    Возьмем диадическое дробление отрезка параметризации $I$ ранга $k$:
+
+    $j = 0, \ldots, N_k$
+
+    $\{t_{k, j}\}$~--- дробление отрезка параметризации $I = [a, b]$
+
+    \[
+    \Gamma'_k = \{\vphi_1(t_{k, j}), \ldots, \vphi_d(t_{k, j}) \}_{j=0}^{N_k} \in \Gamma = \vphi([a, b])
+    \]
+
+    Ломаную $\Gamma'_k$ построим так: 
+
+    Берем две последовательные точки $\vphi(t_{k, j}), \vphi(t_{k, j+1})$, соединяем их отрезком прямой.
+
+    По построению: $l(\Gamma'_k) \le l(\Gamma) \; \; \forall \ \ k \in \NN \qquad$ (потому что каждое звено ломаной меньше длины стягиваемой хорды)
+    
+
+    Проверим, что 
+    \[
+    l(\Gamma'_k) \overset{k \rightarrow +\infty}{\longrightarrow} \int_{a}^{b} \sqrt{\sum_{n=1}^d{|\vphi'_n|^2(x)}} dx
+    \]
+
+    Оценим $l(\Gamma'_k)$:
+
+    $\vphi_k'$ непрерывна на отрезке $[a, b]$ (в концах разумеется производная односторонняя)
+
+    $\Rightarrow$ функции равномерно непрерывны $\Rightarrow$
+    
+    \[ \forall \ \ \eps > 0 \ \ \exists \ \ k_0 \st \forall \ \ k \ge k_0 \ \
+     \forall \ \ [t_{k, j}; t_{k, j+1}] \ \ \forall \ \ \tau_1, \tau_2 \in [t_{k, j}; t_{k, j+1}] \]
+
+    выполняется:
+
+    \[
+    |\vphi_n'(\tau_1) - \vphi_n'(\tau_2)| < \eps, \qquad \forall \ \ n = 1 \ldots d
+    \]
+
+    Сумма длин звеньев ломаной
+    \[ l(\Gamma'_k) = \sum_{j=0}^{N_k-1}{\sqrt{\sum_{n=1}^d{(\vphi_n(t_{k, j+1}) - \vphi_n(t_{k, j}))^2}} \ \ dt } \]
+
+    Чтобы дальнейшие выкладки были немного чище, опустим символы диффернциала и подстановки переменной.
+
+    Оценим разность 
+
+    \[
+    \int_a^b{\sqrt{\sum_{n=1}^d{|\vphi_n'|^2}}} - l(\Gamma_k') =
+    \]
+    \[
+    = \int_a^b{\sqrt{\sum_{n=1}^d{|\vphi_n'|^2}}} - 
+    \sum_{j=0}^{N_k-1}\sqrt{\sum_{n=1}^d{(\vphi_n(t_{k, j+1}) - \vphi_n(t_{k, j}))^2}} = 
+    \]
+
+    \[
+    = \sum_{j=0}^{N_k-1} \int_{t_{k, j}}^{t_{k,j+1}}{\sqrt{\sum_{n=1}^d{|\vphi_n'|^2}}} -
+    \sum_{j=0}^{N_k-1}\left(|t_{k, j+1} - t_{k, j}| \cdot \sqrt{\frac{\sum_{n=1}^d{(\vphi_n(t_{k, j+1}) - \vphi_n(t_{k, j}))^2}}{|t_{k, j+1} - t_{k, j}|^2}}\right) =
+    \]
+    $|t_{k, j+1} - t_{k, j}| = \int_{t_{k, j}}^{t_{k,j+1}} 1 \ \ dt$ 
+    \[
+    = \sum_{j=0}^{N_k-1}\int_{t_{k, j}}^{t_{k,j+1}}\left( \sqrt{\sum_{n=1}^d{|\vphi_n'|^2(t)}} - \sqrt{\sum_{n=1}^d \frac{{(\vphi_n(t_{k, j+1}) - \vphi_n(t_{k, j}))^2}}{|t_{k, j+1} - t_{k, j}|^2}} \right) dt \le
+    \]
+
+    $p := 2$, применим неравенство Минковского для сумм:
+    
+    $|\sqrt{\sum_{n=1}^d\alpha_n^2} - \sqrt{\sum_{n=1}^d\beta_n^2}| \le \sqrt{\sum_{n=1}^d(\alpha_n - \beta_n)^2}$ 
+
+    \[
+    \le \sum_{j=0}^{N_k-1}\int_{t_{k, j}}^{t_{k,j+1}} \sqrt{\sum_{k=1}^d \left( |\vphi_n'|^2(t) -  \frac{(\vphi_n(t_{k, j+1}) - \vphi_n(t_{k, j}))^2}{|t_{k, j+1} - t_{k, j}|^2} \right) } =
+    \]
+
+    По теореме Коши для производных на отрезке $[t_{k, j}; t_{k,j+1}]$:
+
+    \[
+    \frac{(\vphi_n(t_{k, j+1}) - \vphi_n(t_{k, j}))}{|t_{k, j+1} - t_{k, j}|} = \vphi_n'(\tau_{k,j}^n) \qquad \tau_{k,j}^n \in [t_{k, j}; t_{k,j+1}]
+    \]    
+
+    \[
+    = \sum_{j=0}^{N_k-1}\int_{t_{k, j}}^{t_{k,j+1}} \sqrt{\sum_{n=1}^d \left( \vphi_n'(t) - \vphi'(\tau_{k,j}^n) \right)^2} dt \overset{k \ge k_0(\eps)}{\le}
+    \]
+
+    \[
+    \le \sum_{j=0}^{N_k-1}\int_{t_{k, j}}^{t_{k,j+1}} \sqrt{\sum_{n=1}^d \left( \eps \right)^2} dt =
+    \sum_{j=0}^{N_k-1}\int_{t_{k, j}}^{t_{k,j+1}} \eps \cdot \sqrt{\sum_{n=1}^d 1} \ \ dt =
+    \]
+    \[
+    \sum_{j=0}^{N_k-1}\eps \cdot \int_{t_{k, j}}^{t_{k,j+1}}\sqrt{d} = \sum_{j=0}^{N_k-1} \eps \cdot  \sqrt{d} \cdot |t_{k, j+1}-t_{k,j}| = \eps \cdot  \sqrt{d} \cdot (b-a)
+    \]
+
+    \[
+    = (\sqrt{d} \cdot (b-a)) \cdot \eps = const \cdot \eps \overset{k \rightarrow +\infty}{\longrightarrow} 0
+    \]
+
+    
+
+    \vspace{5\baselineskip}
+    ---------------на удаление---------------------
+
     \[
     \int^b_a \sqrt{\sum^d_{k=1}\ \ (\vphi'(t))^2}\ \ dt\ \ \overset{(!)}{\le} \qquad l(\Gamma) \qquad \overset{(!)}{\le} \ \int^b_a \sqrt{\sum^d_{k=1}\ \ (\vphi'(t))^2}\ \ dt
     \]
     $l(\Gamma) = \sup \{ l(\Gamma') \st \Gamma' - \; \text{вписанная} \}$
 
-    $\forall \text{вписанной} \; \Gamma'$
+    $\forall \ \ \text{вписанной} \; \Gamma'$
 
     \[ l(\Gamma') \ \ \le \int^b_a \sqrt{\sum^d_{k=1}\ \ (\vphi'_k(t))^2}\ \ dt \]
 
