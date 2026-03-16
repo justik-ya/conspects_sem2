@@ -40,6 +40,8 @@ BoldItalicFont = cmunbso.otf
 \usetikzlibrary{arrows.meta,positioning,calc}
 \usetikzlibrary{calc}
 \usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{bm}
 
 % -------------------------------------------------
 % Математика
@@ -58,6 +60,7 @@ BoldItalicFont = cmunbso.otf
 \newcommand{\st}{\;:\;}
 \newcommand{\bigO}{\mathcal{O}}
 
+\newcommand{\Sort}{\operatorname{sort}}
 \DeclareMathOperator{\dist}{dist}
 
 \usepackage{algorithm}
@@ -161,6 +164,10 @@ BoldItalicFont = cmunbso.otf
 \definecolor{propBack}{HTML}{F1EEFF}
 \definecolor{propFrame}{HTML}{7A6FA6}
 
+% Замечание: серый
+\definecolor{remBack}{HTML}{F0F0F0}
+\definecolor{remFrame}{HTML}{888888}
+
 % -----------------------
 % Теоремные окружения
 % -----------------------
@@ -195,6 +202,12 @@ BoldItalicFont = cmunbso.otf
 	colback=exBack, colframe=exFrame
 }{ex}
 
+\newtcbtheorem{Remark}{Замечание}{
+	mybox,
+	colback=remBack, colframe=remFrame
+}{rem}
+
+
 % -------------------------------------------------
 % Импорт секций/билетов
 % -------------------------------------------------
@@ -217,7 +230,7 @@ BoldItalicFont = cmunbso.otf
 
 % --- Команда создания обложки ---
 \newcommand{\makecover}[5]{%
-	\thispagestyle{empty}%
+	\thispagestyle{empty}
 	
 	\begin{titlepage}
 		\begingroup
@@ -275,7 +288,7 @@ BoldItalicFont = cmunbso.otf
 	
 	\clearpage
 }
-
+	\pagestyle{plain}
 
 % -------------------------------------------------
 % Документ
@@ -284,7 +297,9 @@ BoldItalicFont = cmunbso.otf
 	
 	\makecover{AlgosColor}{Математические \\ основы \; алгоритмов}{Конспект лекций}{Косолобов Д. А.}{....}
 	
-	\pagestyle{plain}
+	\tableofcontents
+	
+	\newpage
 	
 	\part*{Вторая часть курса}
 	
@@ -292,5 +307,6 @@ BoldItalicFont = cmunbso.otf
 	
 	\ticket{sections/}{ticket03.tex}
 	
+	\ticket{sections/}{ticket05.tex}
 	
 \end{document}
