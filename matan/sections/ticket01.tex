@@ -10,9 +10,9 @@
 \end{Definition}
 
 \begin{proof}
+	Пишем $\log\equiv\ln$. Тогда
 	\[
-	\log n! = \log 1 + \dots + \log n
-	= \log 1\cdot 1 + \log 2\cdot 1 + \dots + \log n\cdot 1 . \text{ Пишем } \log \equiv \ln
+	\ln(n!)=\ln 1+\ln 2+\dots+\ln n=\sum_{k=1}^n \ln k.
 	\]
 	
 	\begin{center}
@@ -64,186 +64,189 @@
 		\end{tikzpicture}
 	\end{center}
 	
+	Так как $\ln x$ возрастает, то для любого $n\ge1$:
 	\[
-	\int_{n}^{n+1}\ln x\,dx \;>\; \ln n\cdot 1 \;>\; \int_{n-1}^{n}\ln x\,dx
+	\int_{n}^{n+1}\ln x\,dx \;>\; \ln n \;>\; \int_{n-1}^{n}\ln x\,dx .
 	\]
 	
-	Отсюда, суммируя по $n=1,\dots,N$:
+	Суммируя по $n=1,\dots,N$
 	\[
-	\int_{0}^{N}\ln x\,dx \;<\; \ln(N!) \;<\; \int_{1}^{N+1}\ln x\,dx.
+	\int_{0}^{N}\ln x\,dx \;<\; \ln(N!) \;<\; \int_{1}^{N+1}\ln x\,dx .
 	\]
 	
 	Так как
 	\[
 	(x\ln x - x)' = \ln x
 	\qquad\Rightarrow\qquad
-	\int \ln x\,dx = x\ln x - x + \mathrm{const}.
+	\int \ln x\,dx = x\ln x - x + \mathrm{C},
 	\]
-	Поэтому
+	то
 	\[
-	n\ln n - n \;<\; \ln(n!) \;<\; (n+1)\ln(n+1) - n.
+	\int_{0}^{n}\ln x\,dx = n\ln n-n,
+	\qquad
+	\int_{1}^{n+1}\ln x\,dx = ((n+1)\ln(n+1) - (n+1)) - (1 \cdot \ln1 - 1).
 	\]
-	
+	Следовательно,
 	\[
-	\exp\Rightarrow\quad n^n e^{-n} \;<\; n! \;<\; (n+1)^{n+1} e^{-n}.
+	n\ln n - n \;<\; \ln(n!) \;<\; (n+1)\ln(n+1) - n,
 	\]
-	
+	и, возводя в экспоненту,
 	\[
-	n^n e^{-n}\cdot \mathrm{Const}\cdot \sqrt{n}\;\leftarrow\;\text{то, что нужно.}
+	n^n e^{-n} \;<\; n! \;<\; (n+1)^{n+1} e^{-n}.
 	\]
 	
 	Определим
 	\[
 	d_n := \ln(n!) - \Bigl(\bigl(n+\tfrac12\bigr)\ln n - n\Bigr).
 	\]
-	\emph{(Если $d_n\to C$, то $n! = e^{d_n}\, n^{n+\frac12}e^{-n}
-		= e^{C}\sqrt{n}\left(\frac{n}{e}\right)^n(1+o(1))$.)}
+
+	Если $d_n\to C$, то
+		\[
+		n! = e^{d_n}\, n^{n+\frac12}e^{-n}
+		= e^{C}\sqrt{n}\left(\frac{n}{e}\right)^n(1+o(1)).
+		\]
+	Кроме того, оценка $d_n=C+O\left(\tfrac1n\right)$ даст именно множитель $1+O\left(\tfrac1n\right)$.
 	
-	Вычислим:
+	Вычислим разность:
 	\begin{align*}
-		\boxed{\,d_n-d_{n+1}\,}
+		d_n-d_{n+1}
 		&= \ln(n!) - \Bigl(n+\tfrac12\Bigr)\ln n + n
 		- \ln\bigl((n+1)!\bigr) + \Bigl(n+1+\tfrac12\Bigr)\ln(n+1) - (n+1) \\
-		&= -\cancel{\ln(n+1)} + \cancel{\ln(n+1)}
+		&= -\ln(n+1)
 		- \Bigl(n+\tfrac12\Bigr)\ln n
-		+ \Bigl(n+\tfrac12\Bigr)\ln(n+1) - 1 \\
-		&= \boxed{\,\Bigl(n+\tfrac12\Bigr)\ln\!\Bigl(\frac{n+1}{n}\Bigr)-1\,}
-		\;\;\textleftarrow\;\; \text{будем это оценивать.}
+		+ \Bigl(n+\tfrac32\Bigr)\ln(n+1) - 1 \\
+		&= \Bigl(n+\tfrac12\Bigr)\bigl(\ln(n+1)-\ln n\bigr)-1 \\
+		&= \Bigl(n+\tfrac12\Bigr)\ln\!\Bigl(\frac{n+1}{n}\Bigr)-1.
 	\end{align*}
 	
-	Положим	
+	Положим
 	\[
 	\frac{n+1}{n}=1+\frac1n
 	= \frac{1+\frac1{2n+1}}{1-\frac1{2n+1}}
 	= \frac{1+t}{1-t},
-	\quad t:=\frac{1}{2n+1}.
+	\qquad t:=\frac{1}{2n+1}.
 	\]
 	\emph{(Эта форма удобна, потому что $\ln\frac{1+t}{1-t}$ имеет красивый ряд.)}
 	
-	\begin{align*}
-		\ln\!\Bigl(\frac{1+t}{1-t}\Bigr)
-		&= \ln(1+t)-\ln(1-t) \\
-		&= 2t+\frac{2t^3}{3}+\frac{2t^5}{5}+\cdots+r_{2k+1}(t),
-	\end{align*}
-	\emph{где $r_{2k+1}(t)$ — остаток (в форме Лагранжа/интегральной и т.п.), $k>10$.}
-	
+	Для $|t|<1$ имеем сходящийся степенной ряд:
 	\[
-	\frac12\,\ln\!\Bigl(\frac{1+t}{1-t}\Bigr)
-	= \frac12\Bigl(2t+\frac{2t^3}{3}+\frac{2t^5}{5}+\cdots+r_{2k+1}(t)\Bigr),
-	\qquad k>10.
+	\ln\!\Bigl(\frac{1+t}{1-t}\Bigr)
+	= \ln(1+t)-\ln(1-t)
+	= 2\left(t+\frac{t^3}{3}+\frac{t^5}{5}+\cdots\right).
 	\]
+	Обозначим остаток частичной суммы:
+	\[
+	\ln\!\Bigl(\frac{1+t}{1-t}\Bigr)
+	= 2\left(t+\frac{t^3}{3}+\cdots+\frac{t^{2k+1}}{2k+1}\right)+r_{2k+1}(t),
+	\qquad |t|<1,
+	\]
+	где при фиксированном $t$ выполнено $r_{2k+1}(t)\to0$ при $k\to\infty$.
 	
-	Подставим в $d_n-d_{n+1}$
+	Подставим это в $d_n-d_{n+1}$ и используем $n+\tfrac12=\frac{1}{2t}$:
 	\begin{align*}
 		d_n-d_{n+1}
 		&=\Bigl(n+\tfrac12\Bigr)\ln\!\Bigl(\frac{1+t}{1-t}\Bigr)-1 \\
-		&= t^{-1}\cdot\frac12\Bigl(2t+\frac{2t^3}{3}+\cdots+r_{2k+1}(t)\Bigr)-1 \\
-		&= \underbrace{\frac13\,t^2+\frac15\,t^4+\cdots+\frac{r_{2k+1}(t)}{2t}}_{> 0}.
+		&= \frac{1}{2t}\left(2\left(t+\frac{t^3}{3}+\cdots+\frac{t^{2k+1}}{2k+1}\right)+r_{2k+1}(t)\right)-1 \\
+		&=\left(1+\frac{t^2}{3}+\frac{t^4}{5}+\cdots+\frac{t^{2k}}{2k+1}\right)+\frac{r_{2k+1}(t)}{2t}-1 \\
+		&=\frac{t^2}{3}+\frac{t^4}{5}+\cdots+\frac{t^{2k}}{2k+1}+\frac{r_{2k+1}(t)}{2t}.
 	\end{align*}
+	Отсюда сразу видно, что $d_n-d_{n+1}>0$, то есть $(d_n)$ убывает.
 	
-	Оценим сверху $d_n-d_{n+1}$
+	Теперь оценим сверху. Так как для $j\ge1$ выполнено $\frac{1}{2j+1}\le \frac{1}{3}$, то
 	\[
-	\text{Кроме того,}\quad
+	\frac{t^2}{3}+\frac{t^4}{5}+\cdots+\frac{t^{2k}}{2k+1}
+	\le \frac13\left(t^2+t^4+\cdots+t^{2k}\right).
+	\]
+	Переходя к пределу по $k\to\infty$ и используя сходимость ряда при $|t|<1$, получаем
+	\[
 	0<d_n-d_{n+1}
-	=\frac13\Bigl(t^2+\frac35t^4+\frac37t^6+\cdots\Bigr)+\frac13\,\frac{r_{2k+1}(t)}{t}
-	<\frac13\Bigl(t^2+t^4+\cdots+t^{2(k-1)}\Bigr)+\frac13\,\frac{r_{2k+1}(t)}{t}.
-	\]
-	\emph{(Просто грубо заменили дроби $\frac{3}{5},\frac{3}{7},\dots<1$.)}
-	
-	\[
-	t^2+t^4+\dots+t^{2(k-1)}
-	=t^2\frac{1-t^{2(k-1)}}{1-t^2}
-	=t^2\left(\frac{1}{1-t^2}-t^{2(k-1)}\cdot\frac{1}{1-t^2}\right)
-	\xrightarrow[k\to\infty]{}\frac{t^2}{1-t^2}.
+	\le \frac13\sum_{j=1}^{\infty} t^{2j}
+	=\frac13\cdot \frac{t^2}{1-t^2}.
 	\]
 	
+	Подставим $t=\frac{1}{2n+1}$:
 	\[
-	t^{2(k-1)}\xrightarrow[k\to\infty]{}0,
-	\qquad
-	\frac{r_{2k+1}(t)}{t}\xrightarrow[k\to\infty]{}0
-	\quad (\text{при фиксированном } t,\ |t|<1).
-	\]
-	
-	\[
-	\text{Следовательно по предельному переходу}\qquad
-	0<d_n-d_{n+1}\leq\frac13\cdot\frac{t^2}{1-t^2}
-	=\frac13\left(\frac{1}{\frac1{t^2}-1}\right).
-	\]
-	
-	\[
-	t=\frac{1}{2n+1}\quad\Rightarrow\quad
 	0<d_n-d_{n+1}
-	<\frac{1}{3\bigl((2n+1)^2-1\bigr)}
-	=\frac{1}{3(4n^2+4n)}
+	\le \frac13\cdot \frac{\frac{1}{(2n+1)^2}}{1-\frac{1}{(2n+1)^2}}
+	=\frac{1}{3\bigl((2n+1)^2-1\bigr)}
 	=\frac{1}{12n(n+1)}
 	=\frac{1}{12}\left(\frac1n-\frac1{n+1}\right).
 	\]
 	
+	Суммируя по $j=n,\dots,n+m-1$, получаем для любого $m\ge1$:
 	\[
 	0<d_n-d_{n+m}
 	=\sum_{j=n}^{n+m-1}(d_j-d_{j+1})
 	<\frac{1}{12}\left(\frac1n-\frac1{n+m}\right).
 	\]
-	\emph{(Отсюда $d_n$ монотонно убывает и ограничена снизу, значит имеет предел.)}
+	\emph{(Значит $d_n$ убывает и ограничена снизу, следовательно имеет предел.)}
 	
+	Обозначим $C:=\lim\limits_{n\to\infty} d_n$. Тогда, переходя в предыдущем неравенстве к пределу при $m\to\infty$, получаем
 	\[
-	d_n\searrow,
-	\qquad
-	\left(d_n-\frac{1}{12n}\right)\nearrow
-	\quad\Longrightarrow\quad
-	d_n\xrightarrow[n\to\infty]{}C.
+	0<d_n-C\le \frac{1}{12n},
 	\]
-	
+	то есть
 	\[
-	\lim_{n\to\infty}d_n=\lim_{n\to\infty}\left(d_n-\frac{1}{12n}\right)=C.
+	d_n=C+O\!\left(\frac1n\right).
 	\]
-	
-	Константа через формулу Валлиса.
-	
+	Следовательно,
 	\[
-	CLAIM:\quad e^{C}=\sqrt{2\pi}.
+	\ln(n!)=\Bigl(n+\tfrac12\Bigr)\ln n-n+C+O\!\left(\frac1n\right),
 	\]
+	и после экспоненты:
+	\[
+	n!=e^{C}\sqrt{n}\left(\frac{n}{e}\right)^n\left(1+O\!\left(\frac1n\right)\right).
+	\]
+	Осталось найти $e^{C}$.
 	
+	\medskip
 	\textbf{Формула Валлиса:}
 	\[
 	\left(\frac{(2n)!!}{(2n-1)!!}\right)^2\cdot\frac{1}{2n+1}
 	\xrightarrow[n\to\infty]{}\frac{\pi}{2}.
 	\]
-	
+	Отсюда
 	\[
-	\Rightarrow\quad
-	\frac{(2n)!!}{(2n-1)!!}\cdot \frac{1}{\sqrt{2n+1}}
-	\xrightarrow[n\to\infty]{}\sqrt{\frac{\pi}{2}},
+	\ln\left(\left(\frac{(2n)!!}{(2n-1)!!}\right)^2\cdot\frac{1}{2n+1}\right)
+	\xrightarrow[n\to\infty]{}\ln\frac{\pi}{2}.
+	\]
+	
+	Используем тождества
+	\[
+	(2n)!!=2^n n!,
 	\qquad
-	\frac{(2n)!!}{(2n-1)!!}\cdot \frac{1}{\sqrt{2n}}
-	\xrightarrow[n\to\infty]{}\sqrt{\frac{\pi}{2}}.
+	(2n)!=(2n)!!(2n-1)!!,
 	\]
-	
+	поэтому
 	\[
-	(2n)!!=2^n n!,\qquad
-	(2n)!=(2n)!!(2n-1)!!
-	\quad\Rightarrow\quad
-	\frac{(2n)!!}{(2n-1)!!}=\frac{2^{2n}(n!)^2}{(2n)!}.
+	\frac{(2n)!!}{(2n-1)!!}=\frac{((2n)!!)^2}{(2n)!}
+	=\frac{2^{2n}(n!)^2}{(2n)!}.
 	\]
-	
+	Тогда
 	\[
 	\ln\left(\left(\frac{2^{2n}(n!)^2}{(2n)!}\right)^2\frac{1}{2n+1}\right)
 	\xrightarrow[n\to\infty]{}\ln\frac{\pi}{2}.
 	\]
 	
+	Теперь подставим разложения через $d_n$:
 	\[
 	\ln(n!)=\Bigl(n+\tfrac12\Bigr)\ln n-n+d_n,\qquad
 	\ln((2n)!)=\Bigl(2n+\tfrac12\Bigr)\ln(2n)-2n+d_{2n}.
 	\]
-	
+	Тогда
 	\begin{align*}
 		\ln\left(\left(\frac{2^{2n}(n!)^2}{(2n)!}\right)^2\frac{1}{2n+1}\right)
 		&=4n\ln2+4\ln(n!)-2\ln((2n)!)-\ln(2n+1)\\
-		&=4d_n-2d_{2n}+\ln n-\ln2-\ln(2n+1)\\
-		&\xrightarrow[n\to\infty]{} 2C-2\ln2.
+		&=4d_n-2d_{2n}+\ln n-\ln2-\ln(2n+1).
 	\end{align*}
-	\emph{(Здесь вся “главная” часть сокращается, остаются только $d_n$ и константы.)}
+	\emph{(Все главные члены порядка $n\ln n$ и $n$ сократились; остались только $d_n$ и константы.)}
 	
+	Переходя к пределу при $n\to\infty$ (учитывая $d_n\to C$ и $d_{2n}\to C$), получаем
+	\[
+	\ln\frac{\pi}{2}=4C-2C+\lim_{n\to\infty}\bigl(\ln n-\ln2-\ln(2n+1)\bigr)
+	=2C-2\ln2.
+	\]
+	Значит
 	\[
 	2C-2\ln2=\ln\frac{\pi}{2}
 	\quad\Rightarrow\quad
@@ -254,6 +257,11 @@
 	e^{C}=\sqrt{2\pi}.
 	\]
 	
+	Итак,
+	\[
+	n!=\sqrt{2\pi n}\left(\frac{n}{e}\right)^n\left(1+O\!\left(\frac1n\right)\right),
+	\qquad n\to\infty.
+	\]
 \end{proof}
 
 \subsection{Несколько интегральных неравенств}
