@@ -6,41 +6,57 @@
 	Дан список, хранящийся в массиве $A[0..N-1]$ в произвольном порядке.
 	У каждого узла $x$ есть поля
 	\[
-	x.\texttt{next},\qquad x.\texttt{prev},\qquad x.w=1.
+	x.\texttt{next},
+	\qquad
+	x.w.
 	\]
-	Также в реализации удобно хранить поле
-	\[
-	x.\texttt{id},
-	\]
-	причём изначально
+	Также в реализации удобно хранить поле $x.\texttt{id}$, причём изначально
 	\[
 	A[i].\texttt{id}=i.
 	\]
-
 	
-	Для узла \(x\) хотим получить его \emph{ранг}
+	\medskip
+	\noindent
+	\begin{Remark}{}{}
+		Ниже в рассуждениях мы иногда будем писать $\operatorname{pred}(x)$ для предшественника вершины $x$ в текущем списке.
+		Это \emph{не поле структуры данных}, а только удобное математическое обозначение для анализа и для псевдокода.
+	\end{Remark}
+	
+	Хотим решить более общую подзадачу:
+	для каждой вершины $x$ вычислить сумму весов на префиксе списка до неё, то есть
 	\[
-	\mathrm{rank}(x)=\text{число переходов по } \mathrm{next} \text{ от } x \text{ до конца списка}.
+	\mathrm{pref}(x)=\sum_{y \text{ от головы списка до } x} y.w.
 	\]
-
+	
+	После работы алгоритма в поле $x.w$ будет записано значение $\mathrm{pref}(x)$.
+	
+	Если изначально у всех вершин $w=1$, то $\mathrm{pref}(x)$ есть просто номер вершины $x$ в списке, считая от головы:
+	\[
+	1,2,\dots,N.
+	\]
 	
 	\subsection{Идея сжатия списка}
 	
-	Пусть \(S\) --- множество удаляемых узлов, такое что никакие два соседних по списку узла не удаляются одновременно.
+	Пусть $S$ --- множество удаляемых узлов, такое что никакие два соседних по списку узла не удаляются одновременно:
 	\[
-	\forall x\in S\quad x.\mathrm{prev} \notin S \text{ и } |S| = \Theta(N).
+	\forall x\in S\quad \operatorname{pred}(x)\notin S,
+	\qquad |S|=\Theta(N).
 	\]
 	
-	\medskip
-	
-	Тогда все узлы из \(S\) можно удалить \emph{независимо друг от друга}:
-	 \(\forall x\in S\) выполняем
+	Тогда все узлы из $S$ можно удалить \emph{независимо друг от друга}:
+	для каждого $x\in S$ выполняем
 	\[
-	x.\mathrm{prev}.\mathrm{next} = x.\mathrm{next},\qquad
-	x.\mathrm{prev}.\mathrm{w} += x.\mathrm{w}.
+	\operatorname{pred}(x).\texttt{next}=x.\texttt{next},
+	\qquad
+	\operatorname{pred}(x).w \mathrel{+}= x.w.
 	\]
 	
-	После удаления получаем более короткий список. Затем задача рекурсивно решается на нём. После возврата из рекурсии удалённые узлы нужно восстановить и дописать для них ответы.
+	После этого каждый оставшийся узел хранит суммарный вес некоторого подряд идущего блока исходных вершин.
+	
+	На получившемся более коротком списке мы рекурсивно решаем \emph{ту же самую задачу}: вычисляем префиксные суммы этих объединенных весов.
+	
+	После возврата из рекурсии удалённые вершины нужно восстановить и дописать для них ответы.
+	
 	
 	\subsection{Как выбрать множество \(S\)}
 	
@@ -62,16 +78,12 @@
 	
 	\subsubsection*{Почему это корректно}
 	
-	Если $x\in S$, то по определению
-	\[
-	x.\texttt{prev}.r=0,\qquad x.r=1.
-	\]
+	Если $x\in S$, то по определению $x.\texttt{prev}.r=0,\qquad x.r=1$.
+
 	Значит, $x.\texttt{prev}$ не может одновременно лежать в $S$, потому что для этого у него должен был бы быть бит $1$.
 	
-	Следовательно,
-	\[
-	\forall x\in S\colon x.\texttt{prev}\notin S.
-	\]
+	Следовательно, $\forall x\in S\colon x.\texttt{prev}\notin S$.
+
 	
 	\subsubsection*{Размер множества $S$}
 	
@@ -80,57 +92,59 @@
 	\Pr[x\in S]=\Pr[x.\texttt{prev}.r=0 \land x.r=1]=\frac14.
 	\]
 	
-	Поэтому
-	\[
-	\mathbb{E}|S| \approx \frac{N}{4},
-	\]
-	а после одного шага остаётся примерно
-	\[
-	N-|S| \approx \frac{3N}{4}
-	\]
+	Поэтому $\mathbb{E}|S| \approx \frac{N}{4}$,
+
+	а после одного шага остаётся примерно $N-|S| \approx \frac{3N}{4}$
 	вершин.
 	
 	\subsection{Рекурсивная схема алгоритма}
 	
+	Следующий псевдокод --- это \emph{не} реализация во внешней памяти, а только удобная запись логики алгоритма, где разрешено использовать обозначение $\operatorname{pred}(x)$.
+	
 	\begin{algorithm}[H]
-		\caption{\textsc{ListRank}$(A)$}
+		\caption{\textsc{PrefixSums-Conceptual}$(A)$}
 		\begin{algorithmic}[1]
-			\Require Массив вершин списка $A$
-			\Ensure Обновлённые значения $w$ для вершин списка
+			\Require Текущий список $A$
+			\Ensure Для каждой вершины $x$ значение $x.w$ равно сумме весов на префиксе до $x$
 			
 			\If{$|A| \le 1$}
 			\State \Return $A$
 			\EndIf
 			
 			\State Для каждой вершины $x \in A$ независимо выбрать случайный бит $x.r \in \{0,1\}$
-			\State $S = \{\, x \in A \mid x.\mathrm{prev} \neq \textsc{null},\ x.\mathrm{prev}.r = 0,\ x.r = 1 \,\}$
+			\State $S = \{\, x \in A \mid \operatorname{pred}(x)\ \text{существует},\ \operatorname{pred}(x).r = 0,\ x.r = 1 \,\}$
 			
 			\Comment{Сжимаем список, удаляя вершины из $S$}
 			\ForAll{$x \in S$}
-			\State $p = x.\mathrm{prev}$
+			\State $p = \operatorname{pred}(x)$
 			\State $p.w = p.w + x.w$
-			\State $p.\mathrm{next} = x.\mathrm{next}$
+			\State $p.\texttt{next} = x.\texttt{next}$
 			\EndFor
 			
 			\State $A' = A \setminus S$
-			\State \Call{ListRank}{$A'$}
+			\State \Call{PrefixSums-Conceptual}{$A'$}
 			
-			\Comment{Восстанавливаем удалённые вершины в обратном порядке}
+			\Comment{Восстанавливаем удалённые вершины}
 			\ForAll{$x \in S$ в порядке, обратном удалению}
-			\State $p = x.\mathrm{prev}$
-			\State $p.\mathrm{next} = x$
-			\State $p.w = p.w - x.w$
-			\State $x.w = x.w + p.w$
+			\State $p = \operatorname{pred}(x)$
+			\State $p.\texttt{next} = x$
+			\State $p.w = p.w - x.w$ \Comment{теперь $p.w$ = префиксная сумма до $p$}
+			\State $x.w = x.w + p.w$ \Comment{теперь $x.w$ = префиксная сумма до $x$}
 			\EndFor
 			
 			\State \Return $A$
 		\end{algorithmic}
-		\end{algorithm}
+	\end{algorithm}
 	
 	\subsection{Реализация через сортировки во внешней памяти}
 	
 	Главная цель --- заменить случайные обращения к указателям на несколько сортировок и линейных проходов.
 	
+	\begin{Remark}{}{}
+		Ниже для краткости не выписана отдельная обработка головы списка, хвоста списка и значения \textsc{null} в поле \texttt{next}.
+		В реальной реализации эти пограничные случаи нужно обрабатывать отдельно
+		(например, специальными фиктивными вершинами или отдельными ветками в коде).
+	\end{Remark}
 	\subsubsection*{Храним идентификаторы}
 	
 	У каждого узла есть поле
@@ -141,6 +155,27 @@
 	\]
 	
 	Это позволяет после перестановок и сортировок восстановить ``исходную'' вершину.
+	
+	\begin{algorithm}[H]
+		\caption{\textsc{EM\_PrefixSums}$(A)$}
+		\begin{algorithmic}[1]
+			\Require Массив вершин $A$, отсортированный по $\texttt{id}$
+			\Ensure Для каждой вершины $x$ значение $x.w$ равно сумме весов на префиксе до $x$
+			
+			\If{$|A| \le 1$}
+			\State \Return $A$
+			\EndIf
+			
+			\State $(\widehat A, S) = \Call{Compress}{$A$}$
+			\Comment{$\widehat A$ --- сжатый список, $S$ --- удалённые вершины}
+			
+			\State $\widehat A = \Call{EM\_PrefixSums}{\widehat A}$
+			\Comment{рекурсивно решаем ту же задачу на объединенных весах}
+			
+			\State $A = \Call{Restore}{\widehat A, S, |A|}$
+			\State \Return $A$
+		\end{algorithmic}
+	\end{algorithm}
 	
 	\subsubsection*{Сортируем по \texttt{next}}
 	
@@ -184,6 +219,65 @@
 	
 	После этого выжившие вершины упаковываются в плотный массив длины $N-|S|$.
 	
+	\begin{algorithm}[H]
+		\caption{\textsc{Compress}$(A)$}
+		\begin{algorithmic}[1]
+			\Require Массив $A[0..N-1]$, отсортированный по $\texttt{id}$
+			\Ensure Сжатый массив $\widehat A$ и массив удалённых вершин $S$
+			
+			\State Для каждой вершины $x \in A$ независимо выбрать случайный бит $x.r \in \{0,1\}$
+			\State $\widetilde A = \Sort(A \text{ по } x.\texttt{next})$
+			\State $S = [\ ]$
+			
+			\Comment{Находим вершины из шаблона $01$ и сразу переносим их вес в предшественника}
+			\For{$i=0$ \textbf{to} $N-1$}
+			\If{$\widetilde A[i].r = 0$ \textbf{and} $A[i].r = 1$}
+			\State $\widetilde A[i].w = \widetilde A[i].w + A[i].w$
+			\State $\widetilde A[i].\texttt{next} = A[i].\texttt{next}$
+			\State $S.\textsc{push\_back}(A[i])$
+			\EndIf
+			\EndFor
+			
+			\State $\widetilde A = \Sort(\widetilde A \text{ по } x.\texttt{next})$
+			
+			\Comment{Упаковываем только живые вершины}
+			\State $B = [\ ]$
+			\State $i = 0$
+			\While{$i < N$}
+			\If{$i+1 < N$ \textbf{and} $\widetilde A[i].\texttt{next} = \widetilde A[i+1].\texttt{next}$}
+			\If{$\widetilde A[i].r = 1$}
+			\State swap$(\widetilde A[i], \widetilde A[i+1])$
+			\Comment{после swap живая вершина стоит первой}
+			\EndIf
+			\State $B.\textsc{push\_back}(\widetilde A[i])$
+			\State $i = i + 2$
+			\Else
+			\State $B.\textsc{push\_back}(\widetilde A[i])$
+			\State $i = i + 1$
+			\EndIf
+			\EndWhile
+			
+			% Изменено: явно прописали перенумерацию next после упаковки.
+			\Comment{Переопределяем \texttt{next}: старые \texttt{id} заменяются на новые позиции в плотном массиве}
+			\State $\widetilde B = \Sort(B \text{ по } x.\texttt{next})$
+			\State $i = 0$; $j = 0$; $k = 0$
+			\While{$j < N-|S|$}
+			\While{$k < |S|$ \textbf{and} $i = S[k].\texttt{id}$}
+			\State $i = i + 1$
+			\State $k = k + 1$
+			\EndWhile
+			\State $\widetilde B[j].\texttt{next} = j$
+			\State $i = i + 1$
+			\State $j = j + 1$
+			\EndWhile
+			
+			% Изменено: явно сказали, что id и w не переинициализируются.
+			\State $\widehat A = \Sort(\widetilde B \text{ по } x.\texttt{id})$
+			\Comment{$\texttt{id}$ сохраняются исходными, веса $w$ уже агрегированы}
+			\State \Return $(\widehat A, S)$
+		\end{algorithmic}
+	\end{algorithm}
+	
 	\subsubsection*{Перенумерация и рекурсия}
 	
 	После упаковки нужно переопределить индексы \texttt{next} под новый массив,
@@ -209,24 +303,32 @@
 	
 	После этого выполняем линейный проход:
 	\begin{algorithm}[H]
-		\caption{\textsc{Restore}$(\widehat A, S)$}
+		\caption{\textsc{Restore}$(\widehat A, S, N)$}
 		\begin{algorithmic}[1]
 			\State $\widetilde S = \Sort(S \text{ по } x.\texttt{next})$
 			\State $\widetilde A = \Sort(\widehat A[0..N-|S|-1] \text{ по } x.\texttt{next})$
 			
+			\Comment{$i$ идёт по старым \texttt{id}, $k$ --- по $S$ в порядке \texttt{id}}
+			\Comment{$j$ идёт по живым вершинам в порядке \texttt{next}, $m$ --- по $S$ в порядке \texttt{next}}
 			\State $i = 0$; $j = 0$; $k = 0$; $m = 0$
+			
 			\While{$j < N-|S|$}
 			\While{$k < |S| \ \textbf{and}\ i = S[k].\texttt{id}$}
 			\State $i = i + 1$
 			\State $k = k + 1$
+			\Comment{пропускаем старые \texttt{id} удалённых вершин}
 			\EndWhile
 			
 			\State $\widetilde A[j].\texttt{next} = i$
+			\Comment{восстановили старый \texttt{id} вершины, на которую вёл указатель}
 			
 			\If{$m < |S| \ \textbf{and}\ \widetilde A[j].\texttt{next} = \widetilde S[m].\texttt{next}$}
+			\Comment{значит, между предшественником и его текущим преемником надо вернуть удалённую вершину}
 			\State $\widetilde A[j].\texttt{next} = \widetilde S[m].\texttt{id}$
 			\State $\widetilde A[j].w = \widetilde A[j].w - \widetilde S[m].w$
+			\Comment{теперь $\widetilde A[j].w$ = префиксная сумма до предшественника}
 			\State $\widetilde S[m].w = \widetilde S[m].w + \widetilde A[j].w$
+			\Comment{теперь $\widetilde S[m].w$ = префиксная сумма до восстановленной вершины}
 			\State $m = m + 1$
 			\EndIf
 			
@@ -249,94 +351,93 @@
 		\item константного числа линейных проходов по массивам.
 	\end{itemize}
 	
-	Поэтому стоимость одного уровня равна
+	Поэтому существует константа $c>0$ такая, что работа одного уровня рекурсии не превосходит
 	\[
-	O(\Sort(N)).
+	c\,\Sort(N).
 	\]
 	
-	\medskip
+	\subsubsection*{Доказательство по индукции}
 	
-	При случайном выборе множества $S$ каждая внутренняя вершина попадает в $S$ с вероятностью $1/4$, поэтому на одном шаге удаляется в среднем постоянная доля вершин. Значит, размер задачи после сжатия в среднем уменьшается в постоянное число раз.
-	
-	Если обозначить через $T(N)$ время работы алгоритма на списке из $N$ вершин, то естественная рекурсия для математического ожидания имеет вид
+	Докажем по индукции, что
 	\[
-	\mathbb{E}[T(N)] = \mathbb{E}[T(\alpha N)] + O(\Sort(N)).
-	\qquad \alpha < 1,
+	\mathbb{E}[T(n)] \le 4c\,\Sort(n).
 	\]
-
 	
-	\subsubsection*{Доказательство утверждения}
+	База индукции для малых $n$ очевидна, если увеличить константу $c$ при необходимости.
 	
-	Разворачивая рекурсию, получаем
+	Пусть теперь утверждение верно для всех размеров меньше $n$.
+	Тогда, раскладывая по возможным значениям $|S|$, получаем
 	\[
-	\mathbb{E}[T(N)]
+	\mathbb{E}[T(n)]
 	=
-	O(\Sort(N))
+	\sum_{k=0}^{n-1}
+	\Pr[|S|=k]\cdot \mathbb{E}[T(n-k)]
 	+
-	O(\Sort(\alpha N))
+	c\,\Sort(n).
+	\]
+	
+	Здесь для простоты суммируем по всем $k<n$, включая $k=0$.
+	
+	По предположению индукции:
+	\[
+	\mathbb{E}[T(n)]
+	\le
+	\sum_{k=0}^{n-1}
+	\Pr[|S|=k]\cdot 4c\,\Sort(n-k)
 	+
-	O(\Sort(\alpha^2 N))
-	+\dots
+	c\,\Sort(n).
 	\]
 	
-	Размеры задач образуют геометрическую прогрессию:
+	Используем стандартную оценку
 	\[
-	N,\ \alpha N,\ \alpha^2 N,\ \dots
+	\Sort(m)=\Theta\!\left(\frac{m}{B}\log_{M/B}\frac{m}{B}\right).
 	\]
-	поэтому глубина рекурсии равна $O(\log N)$.
-	
-	Теперь подставим стандартную оценку для сортировки во внешней памяти:
+	Тогда, поскольку $n-k\le n$,
 	\[
-	\Sort(N)=\Theta\!\left(
-	\frac{N}{B}\log_{M/B}\frac{N}{B}
-	\right).
-	\]
-	
-	Тогда
-	\[
-	\sum_{k\ge 0}\Sort(\alpha^k N)
-	=
-	O\!\left(
-	\sum_{k\ge 0}
-	\frac{\alpha^k N}{B}
-	\log_{M/B}\frac{\alpha^k N}{B}
-	\right).
-	\]
-	
-	Так как $\alpha^k N \le N$, имеем
-	\[
-	\log_{M/B}\frac{\alpha^k N}{B}
+	\Sort(n-k)
 	\le
-	\log_{M/B}\frac{N}{B},
+	\frac{n-k}{B}\log_{M/B}\frac{n}{B}
 	\]
-	и потому
+	с точностью до постоянного множителя, уже поглощённого константой $c$.
+	Следовательно,
 	\[
-	\sum_{k\ge 0}\Sort(\alpha^k N)
+	\mathbb{E}[T(n)]
 	\le
-	O\!\left(
-	\log_{M/B}\frac{N}{B}
-	\sum_{k\ge 0}\frac{\alpha^k N}{B}
-	\right).
+	4c\log_{M/B}\frac{n}{B}
+	\sum_{k=0}^{n-1}\Pr[|S|=k]\frac{n-k}{B}
+	+
+	c\,\Sort(n).
 	\]
 	
-	Сумма геометрической прогрессии
+	Но
 	\[
-	\sum_{k\ge 0}\alpha^k
-	\]
-	ограничена константой, следовательно,
-	\[
-	\sum_{k\ge 0}\Sort(\alpha^k N)
+	\sum_{k=0}^{n-1}\Pr[|S|=k](n-k)
 	=
-	O\!\left(
-	\frac{N}{B}\log_{M/B}\frac{N}{B}
-	\right)
-	=
-	O(\Sort(N)).
+	\mathbb{E}[n-|S|].
 	\]
 	
-	Итак,
+	Так как каждая внутренняя вершина удаляется с вероятностью $1/4$, в среднем после сжатия остаётся не более $\frac{3n}{4}$ вершин
+	(с точностью до констант, связанных с крайними вершинами списка), то есть
 	\[
-	\mathbb{E}[T(N)] = O(\Sort(N)).
+	\mathbb{E}[n-|S|]\le \frac{3n}{4}.
+	\]
+	
+	Подставляя это в предыдущую оценку, получаем
+	\[
+	\mathbb{E}[T(n)]
+	\le
+	4c\log_{M/B}\frac{n}{B}\cdot \frac{3n}{4B}
+	+
+	c\,\Sort(n)
+	\le
+	3c\,\Sort(n)+c\,\Sort(n)
+	=
+	4c\,\Sort(n).
+	\]
+	
+	Индукционный переход доказан, значит
+	\[
+	\mathbb{E}[T(n)] = O(\Sort(n)).
 	\]
 	
 	\subsection*{Итог}
@@ -348,6 +449,86 @@
 	O\!\left(
 	\frac{N}{B}\log_{M/B}\frac{N}{B}
 	\right).
+	\]
+	
+	\begin{Proposition}{}{}
+		Пусть дано корневое дерево на $N$ вершинах.  
+		У каждой вершины $v$ хранится её список детей в нужном порядке обхода:
+		\[
+		\texttt{struct }\{
+		\ \texttt{int id;}
+		\ \texttt{int kids\_num;}
+		\ \texttt{int kids[kids\_num];}
+		\ \}.
+		\]
+		
+		Требуется выписать все вершины в порядке обхода DFS.
+	\end{Proposition}
+	
+	\textbf{Идея.}
+	Построим список, соответствующий эйлерову обходу дерева, и посчитаем на нём префиксные суммы весов.
+	
+	\subsubsection*{Построение списка}
+	
+	% Добавлено: строим по две дуги на каждое ребро.
+	Для каждого ребра $(v,u)$, где $u$ --- ребёнок $v$, создаём две записи:
+	\[
+	(v\to u)
+	\qquad\text{и}\qquad
+	(u\to v).
+	\]
+	Также добавляем фиктивную стартовую запись $s$.
+	
+	Поле \texttt{next} задаём так, чтобы эти записи шли в порядке эйлерова обхода:
+	\begin{itemize}
+		\item после дуги $(v\to u)$ идём либо в первую дугу из $u$ к его первому ребёнку, либо, если детей нет, сразу в $(u\to v)$;
+		\item после дуги $(u\to v)$ идём либо к следующему ребёнку вершины $v$, либо возвращаемся вверх.
+	\end{itemize}
+	
+	Таким образом получаем список длины $2N-1$.
+	
+	\subsubsection*{Веса}
+	
+	% Добавлено: ключевой выбор весов.
+	Положим
+	\[
+	s.w=1,
+	\]
+	\[
+	(v\to u).w=1 \quad \text{для дуги вниз},
+	\qquad
+	(u\to v).w=0 \quad \text{для дуги вверх}.
+	\]
+	
+	Теперь запускаем алгоритм вычисления префиксных сумм на этом списке.
+	
+	\subsubsection*{Почему это работает}
+	
+	% Добавлено: короткое объяснение корректности.
+	Единица добавляется ровно в момент первого входа в новую вершину.  
+	Поэтому:
+	\begin{itemize}
+		\item корень получает номер $1$;
+		\item для каждой дуги вниз $(v\to u)$ значение префиксной суммы на этой записи равно номеру вершины $u$ в порядке DFS.
+	\end{itemize}
+	
+	Значит, если собрать пары
+	\[
+	(1,\text{root})
+	\qquad\text{и}\qquad
+	((v\to u).w,\ u)\ \text{для всех дуг вниз},
+	\]
+	а затем отсортировать их по первому компоненту, то вершины будут выписаны в порядке обхода DFS.
+	
+	\subsubsection*{Сложность}
+	
+	% Добавлено: итоговая оценка.
+	Число записей равно $O(N)$. Построение эйлерова списка и финальная сортировка требуют
+	константного числа сортировок и линейных проходов, а префиксные суммы на списке считаются за $O(\Sort(N))$.
+	
+	Следовательно, вся задача решается за
+	\[
+	O(\Sort(N)).
 	\]
 	
 	\section*{Линейное программирование}
@@ -389,12 +570,13 @@
  	Две наиболее употребительные записи:
 	
 	\[
-	\max \; c^T x \quad \text{при } Ax \le b,\; x \ge 0,
+	\max \; c^T x \quad \text{при } Ax \le b,
 	\]
-	и
+	--- \emph{стандартная форма}, и
 	\[
-	\min \; c^T x \quad \text{при } Ax = b,\; x \ge 0.
+	\min \; c^T x \quad \text{при } Ax = b,\; x \ge 0,
 	\]
+	--- \emph{каноническая форма}.
 	
 	Обе формы эквивалентны общей задаче после несложных преобразований.
 	
@@ -565,7 +747,7 @@
 	\[
 	Ax=b
 	\]
-	нельзя решить точно: например, она переопределена или содержит ошибки измерений. Тогда ищут \(x\), для которого невязка
+	нельзя решить точно: например, она переопределена или содержит ошибки измерений. Тогда ищут \(x\), для которого невязка (ошибка)
 	\[
 	Ax-b
 	\]
