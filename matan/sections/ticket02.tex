@@ -666,7 +666,7 @@ $I = (0, 1], \qquad \vphi(t) = (t, \sin{\frac{1}{t}})$~--- не спрямляе
     $|\sqrt{\sum_{n=1}^d\alpha_n^2} - \sqrt{\sum_{n=1}^d\beta_n^2}| \le \sqrt{\sum_{n=1}^d(\alpha_n - \beta_n)^2}$ 
     \vspace{\baselineskip}
     \[
-    \le \sum_{j=0}^{N_k-1}\int_{t_{k, j}}^{t_{k,j+1}} \sqrt{\sum_{k=1}^d \left( |\vphi_n'|^2(t) -  \frac{(\vphi_n(t_{k, j+1}) - \vphi_n(t_{k, j}))^2}{|t_{k, j+1} - t_{k, j}|^2} \right) } =
+    \le \sum_{j=0}^{N_k-1}\int_{t_{k, j}}^{t_{k,j+1}} \sqrt{\sum_{k=1}^d \left(|\vphi_n'|(t) -  \frac{(\vphi_n(t_{k, j+1}) - \vphi_n(t_{k, j}))}{|t_{k, j+1} - t_{k, j}|} \right)^2 } =
     \]
 
     По теореме Коши для производных на отрезке $[t_{k, j}; t_{k,j+1}]$:
@@ -689,9 +689,9 @@ $I = (0, 1], \qquad \vphi(t) = (t, \sin{\frac{1}{t}})$~--- не спрямляе
     \]
 
     \[
-    = (\sqrt{d} \cdot (b-a)) \cdot \eps = const \cdot \eps \overset{k \rightarrow +\infty}{\longrightarrow} 0
+    = (\sqrt{d} \cdot (b-a)) \cdot \eps = const \cdot \eps
     \]
-    А значит, $\lim_{k \rightarrow +\infty} l(\Gamma'_k) = L$
+    Так как $\eps$ можно выбрать сколь угодно близким к $0$, то $\lim_{k \rightarrow +\infty} l(\Gamma'_k) = L$
 
     \vspace{\baselineskip}
 
@@ -706,7 +706,7 @@ $I = (0, 1], \qquad \vphi(t) = (t, \sin{\frac{1}{t}})$~--- не спрямляе
 
 \begin{Example}{Параметризация окружности}{}
 
-    Для оркужностей радиуса $r > 0$:
+    Для окружностей радиуса $r > 0$:
 
     \[
     \vphi_1(t) = r \cdot \cos{2\pi t} \qquad \vphi_2(t) = r \cdot \sin{2\pi t}, \qquad t \in [0; 1]
