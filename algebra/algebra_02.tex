@@ -215,7 +215,7 @@ BoldItalicFont = cmunbso.otf
 
 % --- Команда создания обложки ---
 \newcommand{\makecover}[5]{%
-	\pagenumbering{gobble}%
+	\thispagestyle{empty}
 	
 	\begin{titlepage}
 		\begingroup
@@ -274,12 +274,19 @@ BoldItalicFont = cmunbso.otf
 	\clearpage
 }
 
+\pagestyle{plain}
+
 % -------------------------------------------------
 % Начало документа
 % -------------------------------------------------
 \begin{document}
 	
 	\makecover{AlgebraColor}{Конспект \: лекций \: по Алгебре}{}{Жуков И. Б.}{....}
+	
+	\setcounter{tocdepth}{1}
+	\tableofcontents
+	
+	\newpage
 	
 	\part*{Второй семестр}
 	
