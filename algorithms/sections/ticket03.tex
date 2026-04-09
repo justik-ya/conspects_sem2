@@ -135,18 +135,16 @@ y_i = \sum_{j=0}^{i} x_j, \qquad i = 0, \dots, n-1.
 		\node[dot] at (\ColTA,  \YBT) {};
 		\node[dot] at (\ColTB,  \YBT) {};
 		\node[dot] at (\ColTC,  \YBT) {};
-		\node[dot] at (\ColTwo, \YBT) {};
-		\node[dot] at (\ColFour,\YBT) {};
-		\node[dot] at (\ColFnm, \YBT) {};
+	
 		
 		%% === DOTS ON BOX BOTTOM ===
 		\node[dot] (RZ)  at (\ColTA,   \YBB) {};
 		\node[dot] (RI)  at (\ColTB,   \YBB) {};
 		\node[dot] (RP)  at (\ColRprev,\YBB) {};
 		\node[dot] (RL)  at (\ColTC,   \YBB) {};
-		\node[dot] (PII) at (\ColTwo,  \YBB) {};
-		\node[dot] (PIV) at (\ColFour, \YBB) {};
-		\node[dot] (PNM) at (\ColFnm,  \YBB) {};
+		\coordinate (PII) at (\ColTwo,  \YBB);
+		\coordinate (PIV) at (\ColFour, \YBB);
+		\coordinate (PNM) at (\ColFnm,  \YBB);
 		
 		%% === BOTTOM ADDERS ===
 		\node[adder] (BAii) at (\ColBAii,\YBA) {$+$};
@@ -221,14 +219,12 @@ y_i = \sum_{j=0}^{i} x_j, \qquad i = 0, \dots, n-1.
 		\Require массив $x[0..n-1]$, $n = 2^m$
 		\Statex \textbf{Upsweep:} накапливаем суммы на концах блоков
 		\For{$d = 0$ \textbf{to} $\log_2 n - 1$}
-		\Comment{для фиксированного $d$ все операции внутреннего цикла по $k$ выполняются параллельно}
 		\For{$k = 0$ \textbf{to} $n-1$ \textbf{step} $2^{d+1}$}
 		\State $x[k + 2^{d+1} - 1] \mathrel{+}= x[k + 2^d - 1]$
 		\EndFor
 		\EndFor
 		\Statex \textbf{Downsweep:} добавляем префикс предыдущего блока к левому подблоку
 		\For{$d = \log_2 n - 1$ \textbf{downto} $0$}
-		\Comment{для фиксированного $d$ все операции внутреннего цикла по $k$ выполняются параллельно}
 		\For{$k = 0$ \textbf{to} $n-1$ \textbf{step} $2^{d+1}$}
 		\If{$k > 0$}
 		\State $x[k + 2^d - 1] \mathrel{+}= x[k - 1]$
