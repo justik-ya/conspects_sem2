@@ -595,7 +595,7 @@ y_{k+n/2} = y_k^{(0)} - \omega^k\, y_k^{(1)},
 	\end{tikzpicture}
 	\caption{
 		Серые столбцы соответствуют единицам.
-		Параметры $i,j,k\ge 0$; каждый может быть нулём.
+		Параметры $i,j,k\ge 0$.
 		После одного слоя компараторов
 		(сравнение $z_k$ и $z_{k+m/2}$) минимумы образуют последовательность типа~(а),
 		а максимумы~--- типа~(б), либо наоборот.}
@@ -1055,7 +1055,7 @@ z_k^{\max} = \max\{z_k,\, z_{k+m/2}\},
 		\State $(b_1,\dots,b_{n/2}) = \textsc{odd\_even\_sort}(x_{n/2+1},\dots,x_n)$
 		\Comment{сортировка правой половины}
 		
-		\State $\Return \textsc{odd\_even\_merge}(a_1,\dots,a_{n/2};\, b_1,\dots,b_{n/2})$
+		\State $\Return \textsc{ odd\_even\_merge}(a_1,\dots,a_{n/2};\, b_1,\dots,b_{n/2})$
 	\end{algorithmic}
 \end{algorithm}
 
