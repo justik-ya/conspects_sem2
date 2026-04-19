@@ -1,0 +1,330 @@
+% !TEX root = ../discretemath.tex
+
+\section{Локальная лемма Ловаса. Числа Рамсея}
+
+\textbf{Напоминание.}
+Пусть даны события $A, B_1, \dots, B_n$.
+Говорят, что $A$ \emph{независимо} от $B_1, \dots, B_n$, если
+\[
+\forall\, I \subseteq \{1, \dots, n\}\colon\quad
+P\!\bigl(A \mid \textstyle\bigwedge_{i \in I} B_i\bigr) = P(A).
+\]
+
+\begin{Definition}{Граф зависимостей}{}
+	Пусть $\{A_1, \dots, A_n\}$ — набор событий.
+	Граф $\Gamma$ называется \emph{графом зависимостей} (dependency graph) для $\{A_1, \dots, A_n\}$, если
+	$V(\Gamma) = \{1, \dots, n\}$ и для каждого $i$ событие $A_i$ не зависит от
+	$\{A_k : ik \notin \Gamma\}$
+	(то есть от событий, индексы которых не являются соседями $i$ в $\Gamma$).
+\end{Definition}
+
+\begin{Example}{Монеты}{}
+	Рассмотрим $n-1$ монету. Положим:
+	\begin{itemize}
+		\item $A_1, \dots, A_{n-1}$ — событие «$i$-я монета — орёл»;
+		\item $A_n$ — событие «чётное число орлов».
+	\end{itemize}
+\end{Example}
+
+\begin{Statement}{}{}
+	Если $\Gamma$ — граф зависимостей, то все вершины имеют исходящую степень $\geq 1$.
+\end{Statement}
+
+\begin{Theorem}{Локальная лемма Ловаса, асимметричная форма}{}
+	Пусть $\{A_1, \dots, A_n\}$ — события, $\Gamma$ — граф зависимостей для них.
+	Предположим, что существует функция
+	\[
+	f\colon \{A_1, \dots, A_n\} \to [0,1)
+	\]
+	такая, что
+	\[
+	\forall\, i\colon\quad P(A_i) \leq f(A_i) \prod_{ik \in \Gamma} \bigl(1 - f(A_k)\bigr).
+	\]
+	Тогда
+	\[
+	P\!\bigl(\overline{A_1} \wedge \overline{A_2} \wedge \dots \wedge \overline{A_n}\bigr)
+	\geq \prod_{i=1}^{n} \bigl(1 - f(A_i)\bigr).
+	\]
+\end{Theorem}
+
+\begin{proof}
+	Докажем вспомогательное утверждение.
+
+	\smallskip
+	\noindent\textbf{Утверждение.}
+	Для любого $S \subseteq \{A_1, \dots, A_n\}$ и любого $A_i \notin S$ выполнено:
+	\[
+	P\!\Bigl(\bigwedge_{B \in S} \overline{B}\Bigr) > 0
+	\qquad\text{и}\qquad
+	P\!\Bigl(A_i \;\Big|\; \bigwedge_{B \in S} \overline{B}\Bigr) \leq f(A_i).
+	\]
+
+	\smallskip
+	\noindent\textbf{Доказательство по индукции по $|S|$.}
+
+	\smallskip
+	\noindent\emph{База:} $S = \varnothing$ — очевидно.
+
+	\smallskip
+	\noindent\emph{Переход.}
+	Зафиксируем $A_i$ и разобьём $S = S_1 \sqcup S_2$, где:
+	\begin{itemize}
+		\item $B \in S_1$, если $A_i B$ — ребро в $\Gamma$;
+		\item $B \in S_2$ иначе.
+	\end{itemize}
+
+	Пусть $A_k \in S$ — произвольный элемент. Тогда
+	\[
+	P\!\Bigl(\bigwedge_{B \in S} \overline{B}\Bigr)
+	= P\!\Bigl(\overline{A_k} \wedge \bigwedge_{B \in S \setminus \{A_k\}} \overline{B}\Bigr)
+	= P\!\Bigl(\overline{A_k} \;\Big|\; \bigwedge_{B \in S \setminus \{A_k\}} \overline{B}\Bigr)
+	\cdot P\!\Bigl(\bigwedge_{B \in S \setminus \{A_k\}} \overline{B}\Bigr).
+	\]
+	По предположению индукции (применённому к $S \setminus \{A_k\}$, которое имеет меньший размер):
+	\[
+	P\!\Bigl(\overline{A_k} \;\Big|\; \bigwedge_{B \in S \setminus \{A_k\}} \overline{B}\Bigr)
+	\geq 1 - f(A_k).
+	\]
+	Повторяя этот процесс, получаем
+	\[
+	P\!\Bigl(\bigwedge_{B \in S} \overline{B}\Bigr)
+	\geq \prod_{B \in S} \bigl(1 - f(B)\bigr) > 0.
+	\]
+
+	\smallskip
+	Теперь оценим условную вероятность $P(A_i \mid \bigwedge_{B \in S} \overline{B})$.
+	Пусть $S_1 = \{B_1, \dots, B_\ell\}$. Имеем:
+	\[
+	P\!\Bigl(A_i \;\Big|\; \bigwedge_{B \in S} \overline{B}\Bigr)
+	= P\!\Bigl(A_i \;\Big|\; \Bigl(\bigwedge_{S_1} \overline{B}\Bigr) \wedge \Bigl(\bigwedge_{S_2} \overline{B}\Bigr)\Bigr)
+	= \frac{P\!\Bigl(A_i \wedge \bigl(\bigwedge_{S_1} \overline{B}\bigr) \;\Big|\; \bigwedge_{S_2} \overline{B}\Bigr)}
+	{P\!\Bigl(\bigwedge_{S_1} \overline{B} \;\Big|\; \bigwedge_{S_2} \overline{B}\Bigr)}.
+	\]
+
+	Если $S_1 = \varnothing$, то утверждение очевидно (по независимости $A_i$ от $S_2$).
+
+	\smallskip
+	\noindent\textbf{Оценка числителя:}
+	\[
+	P\!\Bigl(A_i \wedge \Bigl(\bigwedge_{S_1} \overline{B}\Bigr) \;\Big|\; \bigwedge_{S_2} \overline{B}\Bigr)
+	\leq P\!\Bigl(A_i \;\Big|\; \bigwedge_{S_2} \overline{B}\Bigr)
+	= P(A_i)
+	\leq f(A_i) \prod_{ij \in \Gamma} \bigl(1 - f(A_j)\bigr).
+	\]
+	Здесь второе равенство следует из того, что $A_i$ не зависит от событий из $S_2$
+	(по определению графа зависимостей: вершины $S_2$ не соседи $i$).
+
+	\smallskip
+	\noindent\textbf{Оценка знаменателя:}
+	\[
+	P\!\Bigl(\bigwedge_{S_1} \overline{B} \;\Big|\; \bigwedge_{S_2} \overline{B}\Bigr)
+	= P\!\bigl(\overline{B_1} \wedge \dots \wedge \overline{B_\ell} \mid \textstyle\bigwedge_{S_2} \overline{B}\bigr).
+	\]
+	Раскладывая по цепному правилу и применяя предположение индукции, получаем
+	\[
+	P\!\Bigl(\bigwedge_{S_1} \overline{B} \;\Big|\; \bigwedge_{S_2} \overline{B}\Bigr)
+	\geq \prod_{B \in S_1} \bigl(1 - f(B)\bigr).
+	\]
+
+	\smallskip
+	\noindent\textbf{Итого:}
+	\[
+	\frac{f(A_i) \prod_{ij \in \Gamma} \bigl(1 - f(A_j)\bigr)}
+	{\prod_{B \in S_1} \bigl(1 - f(B)\bigr)}
+	= \frac{f(A_i) \prod_{\substack{A_i B \in \Gamma}} \bigl(1 - f(B)\bigr)}
+	{\prod_{B \in S_1} \bigl(1 - f(B)\bigr)}
+	\leq f(A_i),
+	\]
+	поскольку $S_1 \subseteq \{B : A_i B \in \Gamma\}$ и $B \notin \Gamma_i$ даёт $1 - f(B) \leq 1$.
+
+	\bigskip
+	\noindent\textbf{Доказываем ЛЛЛ.}
+	\[
+	P\!\bigl(\overline{A_1} \wedge \overline{A_2} \wedge \dots \wedge \overline{A_n}\bigr)
+	= P\!\bigl(\overline{A_1} \mid \overline{A_2} \wedge \dots \wedge \overline{A_n}\bigr)
+	\cdot P\!\bigl(\overline{A_2} \mid \overline{A_3} \wedge \dots \wedge \overline{A_n}\bigr)
+	\cdots P\!\bigl(\overline{A_{n-1}} \mid \overline{A_n}\bigr) \cdot P\!\bigl(\overline{A_n}\bigr).
+	\]
+	Каждый множитель имеет вид $1 - P(A_i \mid \dots)$. По доказанному вспомогательному утверждению:
+	\[
+	P\!\bigl(\overline{A_1} \wedge \dots \wedge \overline{A_n}\bigr)
+	= \prod_{i=1}^{n} \bigl(1 - P(A_i \mid \overline{A_{i+1}} \wedge \dots \wedge \overline{A_n})\bigr)
+	\geq \prod_{i=1}^{n} \bigl(1 - f(A_i)\bigr).
+	\]
+\end{proof}
+
+\begin{Theorem}{ЛЛЛ, симметричная форма}{}
+	Пусть $\{A_1, \dots, A_n\}$ — события, для каждого из которых $P(A_i) \leq q$.
+	Пусть существует граф зависимостей с максимальной исходящей степенью $\leq d$.
+	Если
+	\[
+	e\, q\, (d+1) \leq 1,
+	\]
+	то
+	\[
+	P\!\bigl(\overline{A_1} \wedge \dots \wedge \overline{A_n}\bigr) > 0.
+	\]
+\end{Theorem}
+
+\begin{proof}
+	Положим $f(A_i) := \dfrac{1}{d+1}$ для всех $i$. Тогда
+	\[
+	f(A_i) \prod_{ik \in \Gamma} \bigl(1 - f(A_k)\bigr)
+	= \frac{1}{d+1} \prod_{ik \in \Gamma} \Bigl(1 - \frac{1}{d+1}\Bigr)
+	\geq \frac{1}{d+1} \Bigl(1 - \frac{1}{d+1}\Bigr)^d
+	= \frac{1}{d+1} \cdot \Bigl(\frac{d}{d+1}\Bigr)^d.
+	\]
+	Так как $\bigl(1 + \frac{1}{d}\bigr)^d < e$ при всех $d \geq 1$, получаем
+	\[
+	\frac{1}{d+1} \cdot \Bigl(\frac{d}{d+1}\Bigr)^d
+	\geq \frac{1}{d+1} \cdot \frac{1}{e}
+	= \frac{1}{e(d+1)}
+	\geq q \geq P(A_i).
+	\]
+	Значит, условие асимметричной формы ЛЛЛ выполнено, и $P(\overline{A_1} \wedge \dots \wedge \overline{A_n}) > 0$.
+\end{proof}
+
+\begin{Example}{$k$-КНФ}{}
+	Рассмотрим $k$-КНФ (конъюнктивную нормальную форму):
+	\[
+	(x_{i_1} \vee \dots \vee x_{i_k}) \wedge (x_{j_1} \vee \dots \vee x_{j_k}) \wedge \dots
+	\]
+	Каждый дизъюнкт содержит $k$ переменных (возможно, с отрицаниями).
+	Обозначим $A_i$ — событие «$i$-й дизъюнкт не выполнен».
+	События $A_i$ и $A_j$ зависимы тогда и только тогда, когда в них есть общая переменная.
+
+	\smallskip
+	Если каждое $A_i$ зависит не более чем от $2^{k-2}$ свободных переменных
+	(то есть знание значений остальных переменных, когда дизъюнкт не выполнен),
+	то граф зависимостей тот же.
+
+	Каждая переменная с вероятностью $\frac{1}{2}$ принимает значение $0$ или $1$. Тогда
+	\[
+	P(A_i) = 2^{-k} = q, \qquad 4q\,d \leq 1 \implies \text{можно применить ЛЛЛ}
+	\implies P(\overline{A_1} \wedge \dots \wedge \overline{A_n}) > 0.
+	\]
+\end{Example}
+
+\begin{Example}{Независимое множество из списков}{}
+	Пусть $G$ — граф с максимальной степенью $\leq d$.
+	Даны наборы вершин $V_1, V_2, \dots$ — непересекающиеся множества размера $\geq 2ed$.
+
+	Тогда можно выбрать $u_1 \in V_1$, $u_2 \in V_2$, \dots\ так, что $\{u_1, u_2, \dots\}$ — независимое множество (без рёбер).
+
+	\smallskip
+	\noindent\textbf{Доказательство.}
+	Положим $K = \lfloor 2ed \rfloor + 1$. Так как $|V_i| \geq 2ed$,
+	уменьшим каждое $V_i$ до размера $|V_i| = K$.
+
+	В каждом $V_i$ выберем случайную вершину (с вероятностью $\frac{1}{K}$).
+	Для ребра $e \in E(G)$ определим событие $A_e$ — «выбрали оба конца ребра $e$». Тогда:
+	\[
+	P(A_e) =
+	\begin{cases}
+		\frac{1}{K^2}, & \text{если концы $e$ в разных $V_i$};\\
+		0, & \text{иначе}.
+	\end{cases}
+	\]
+
+	От чего зависит $A_e$? Событие $A_e$ зависит от событий $A_{e'}$, для которых $e$ и $e'$ имеют общую вершину.
+	Число таких рёбер $e'$ не превышает $\leq 2(Kd - 1)$ (каждый конец $e$ инцидентен $\leq Kd - 1$ другим рёбрам среди выбранных вершин).
+
+	Тогда
+	\[
+	e \cdot \frac{1}{K^2} \cdot \bigl(2(Kd-1)+1\bigr) = \frac{2ed - \frac{e}{K}}{K} < 1.
+	\]
+	Значит, можно применить ЛЛЛ: с положительной вероятностью ни одно из событий $A_e$ не произойдёт,
+	то есть существует выбор $\{u_1, u_2, \dots\}$, образующий независимое множество.
+\end{Example}
+
+\bigskip
+\subsection*{Числа Рамсея}
+
+\begin{Definition}{Числа Рамсея}{}
+	$R(m, n)$ — наименьшее $N \in \NN$ такое, что в любом простом графе на $N$ вершинах
+	содержится либо полный подграф на $m$ вершинах, либо пустой подграф (независимое множество) на $n$ вершинах.
+
+	\smallskip
+	\emph{Переформулировка:} если рёбра полного графа $K_N$ покрасить в красный или белый цвет,
+	то найдётся либо красный $K_m$, либо белый $K_n$.
+\end{Definition}
+
+\begin{Statement}{}{}
+	\begin{enumerate}
+		\item[(i)] $R(1, n) = R(m, 1) = 1$.
+		\item[(ii)] $R(n, m) = R(m, n)$.
+	\end{enumerate}
+\end{Statement}
+
+\begin{Theorem}{Верхняя оценка на числа Рамсея}{}
+	\[
+	R(m, n) \leq R(m-1, n) + R(m, n-1).
+	\]
+\end{Theorem}
+
+\begin{proof}
+	Пусть $N = R(m-1,n) + R(m, n-1)$. Рассмотрим граф на $N$ вершинах.
+
+	Выберем произвольную вершину $v$. Её соседи в красном графе образуют множество, а не-соседи — другое множество.
+	\begin{itemize}
+		\item Если красных соседей $\geq R(m-1, n)$, то среди них найдётся красный $K_{m-1}$ (и вместе с $v$ получим $K_m$) или белый $K_n$. В обоих случаях — ОК.
+		\item Если белых соседей $\geq R(m, n-1)$, то среди них найдётся красный $K_m$ или белый $K_{n-1}$ (и вместе с $v$ получим $K_n$). Снова ОК.
+	\end{itemize}
+
+	Число вершин, отличных от $v$:
+	\[
+	N - 1 = R(m-1,n) - 1 + R(m, n-1) - 1.
+	\]
+	Поэтому хотя бы одно из двух множеств имеет нужный размер — противоречие невозможно.
+\end{proof}
+
+\begin{Statement}{Следствие}{}
+	\[
+	R(m, n) \leq \binom{m+n-2}{n-1}.
+	\]
+\end{Statement}
+
+\begin{Remark}{}{}
+	ЛЛЛ хорошо работает для оценки $R(\ell, k)$ при малых $\ell$.
+\end{Remark}
+
+\begin{Example}{$R(3, k)$}{}
+	Рассмотрим случайный граф на $N$ вершинах: каждое ребро проводим с вероятностью $q$.
+
+	Для $S, T \subseteq V$, $|S| = 3$, $|T| = k$, определим события:
+	\begin{itemize}
+		\item $A_S$ — «на $S$ полный граф» (красный треугольник);
+		\item $B_T$ — «на $T$ пустой граф» (белая клика).
+	\end{itemize}
+
+	Тогда $P(A_S) = q^3$ и $P(B_T) = (1-q)^{\binom{k}{2}}$.
+
+	\smallskip
+	Граф зависимостей: $A_S$ и $A_{S'}$ зависимы, если $|S \cap S'| \geq 2$;
+	$A_S$ и $B_T$ зависимы, если $|S \cap T| \geq 2$;
+	$B_T$ и $B_{T'}$ зависимы, если $|T \cap T'| \geq 2$.
+
+	\smallskip
+	Зависимости:
+	\begin{itemize}
+		\item $A_S$ зависит от $\leq 3(N-3) < 3N$ других $A_{S'}$;
+		\item $A_S$ зависит от не более чем $\binom{N}{k}$ событий $B_T$;
+		\item $B_T$ зависит от не более чем $\binom{k}{2}(N-2) \leq \frac{k^2 N}{2}$ событий $A_S$;
+		\item $B_T$ зависит от не более чем $\binom{N}{k}$ событий $B_{T'}$.
+	\end{itemize}
+
+	Положим $f(A_S) = x$, $f(B_T) = y$. Условие ЛЛЛ:
+	\[
+	P(A_S) \leq x\,(1-x)^{3N}\,(1-y)^{\binom{N}{k}},
+	\qquad
+	P(B_T) \leq y\,(1-x)^{\frac{k^2 N}{2}}\,(1-y)^{\binom{N}{k}}.
+	\]
+
+	Если существуют $k$, $N$ и $x$, $y$, удовлетворяющие этим неравенствам,
+	то $R(3, k) > N$.
+
+	С помощью этого метода можно доказать, что
+	\[
+	R(3, k) \geq \Omega\!\left(\left(\frac{k}{\log k}\right)^2\right).
+	\]
+\end{Example}
