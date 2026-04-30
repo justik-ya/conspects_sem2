@@ -59,7 +59,7 @@ k \cdot (g_1, \ldots, g_p) = (g_{1+k \bmod p},\; g_{2+k \bmod p},\; \ldots,\; g_
 \subsection{Теоремы Силова}
 
 \begin{Definition}{Силовская $p$-подгруппа}{}
-	Пусть $G$ — конечная группа, $p^k \mid |G|$, но $p^{k+1} \nmid |G|$.
+	Пусть $G$ — конечная группа, $p^k \mid |G|$, но $p^{k+1} \nmid |G|$, $k \geq 1$.
 	\textit{Силовская $p$-подгруппа} — это подгруппа $H < G$ с $|H| = p^k$.
 \end{Definition}
 
@@ -71,6 +71,8 @@ k \cdot (g_1, \ldots, g_p) = (g_{1+k \bmod p},\; g_{2+k \bmod p},\; \ldots,\; g_
 		\item \textit{(Количество.)} Число силовских $p$-подгрупп делит $|G|$ и $\equiv 1 \pmod{p}$.
 	\end{enumerate}
 \end{Theorem}
+
+\textbf{Без доказательства.}
 
 \section*{Билинейные функции}
 
@@ -121,9 +123,6 @@ k \cdot (g_1, \ldots, g_p) = (g_{1+k \bmod p},\; g_{2+k \bmod p},\; \ldots,\; g_
 [v]_E = C\,[v]_{E'} \quad \text{для всех } v \in V. \tag{$*$}
 \]
 
-% (На доске часть записей была закрыта плакатом; по контексту восстановлено:
-%  формула $\mathcal{B}(v,w) = [v]_E^T [\mathcal{B}]_E [w]_E$ применялась в следующем шаге.)
-
 \begin{Statement}{}{}
 	$[\mathcal{B}]_{E'} = C^{\top}\,[\mathcal{B}]_E\,C$.
 \end{Statement}
@@ -148,6 +147,8 @@ k \cdot (g_1, \ldots, g_p) = (g_{1+k \bmod p},\; g_{2+k \bmod p},\; \ldots,\; g_
 \begin{Statement}{}{}
 	Пусть $B = [\mathcal{B}]_E$. Тогда $\mathcal{B}$ симметрична $\Longleftrightarrow$ $B = B^{\top}$.
 \end{Statement}
+
+\textbf{Очевидно.}
 
 \subsection{Теорема Лагранжа (диагонализация)}
 
@@ -298,7 +299,6 @@ r \in \{0,1,\ldots,n\}, \qquad
 \end{Statement}
 
 \subsection{Скалярное произведение и евклидовы пространства}
-
 
 \begin{Definition}{Скалярное произведение}{}
 	\textit{Скалярное произведение} на $V/\mathbb{R}$ — это симметрическая билинейная форма $\mathcal{B}$ на $V$ такая, что
